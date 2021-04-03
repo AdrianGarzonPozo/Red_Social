@@ -10,4 +10,5 @@ mongoose.connect('mongodb://admin:admin@localhost:27017/red_social?authSource=ad
             console.log('Servidor corriendo en http://localhost:3700');
         });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err)
+    );

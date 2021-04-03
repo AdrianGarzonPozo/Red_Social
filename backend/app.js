@@ -4,7 +4,14 @@ var bodyParser = require('body-parser');
 var app = express();
 
 //Cargamos los rutas
+var usuarios_rutas=require('./rutas/usuarios');
+var publicaciones_rutas=require('./rutas/publicaciones');
+var comentarios_rutas=require('./rutas/comentarios');
 
+//Todas estas rutas pasaran primero por /api
+app.use('/api', usuarios_rutas);
+app.use('/api', publicaciones_rutas);
+app.use('/api', comentarios_rutas);
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: false })); //Activar body-parser
