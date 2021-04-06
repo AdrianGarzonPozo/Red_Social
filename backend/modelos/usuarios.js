@@ -10,6 +10,7 @@ var UsuarioSchema = Schema({
     tipo_cuenta: Boolean,
     telefono_p2p: Number,
     siguiendo: [String],
+    seguidores: [String],
     publicaciones: [String]
 });
 

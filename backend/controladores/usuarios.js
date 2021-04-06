@@ -24,27 +24,28 @@ async function recuperarUno(req, res) {
 
 async function añadirNuevo(req, res) {
     try {
-        const usuario = new usuarioModelo();
+        const newUsuario = new usuarioModelo();
 
         var params = req.body;
-        console.log(params.nombre);
 
-        usuario.nombre = params.nombre;
-        usuario.biografia = params.biografia;
-        usuario.contrasena = params.biografia;
-        usuario.correo = params.correo;
-        usuario.foto_perfil = params.foto_perfil;
-        usuario.tipo_cuenta = true;
-        usuario.telefono_p2p = '0';
-        usuario.siguiendo = [];
-        usuario.publicaciones = [];
+        newUsuario.nombre = params.nombre;
+        newUsuario.biografia = params.biografia;
+        newUsuario.contrasena = params.biografia;
+        newUsuario.correo = params.correo;
+        newUsuario.foto_perfil = params.foto_perfil;
+        newUsuario.tipo_cuenta = true;
+        newUsuario.telefono_p2p = '0';
+        newUsuario.siguiendo = [];
+        newUsuario.seguidores = [];
+        newUsuario.publicaciones = [];
 
-        await new usuarioModelo(usuario).save((err, usuarioGuardado) => {
+
+        await new usuarioModelo(newUsuario).save((err, usuarioGuardado) => {
             if (err) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioGuardado) return res.send(404).send({ status: '404' });
 
-            return res.status(200).send({ status: usuario });
+            return res.status(200).send({ status: 'success' });
         });
 
 
