@@ -20,7 +20,7 @@ async function recuperarUno(req, res) {
 
         await usuarioModelo.findById(idUsuario,(error,usuarioRecuperado)=>{
             if (error) return res.status(500).send({ status: 'failed' });
-            if (!usuarioRecuperado) return res.send(404).send({ status: '404' });
+            if (!usuarioRecuperado) return res.status(404).send({ status: '404' });
 
             return res.status(200).send(usuarioRecuperado);
 
@@ -60,9 +60,19 @@ async function añadirNuevo(req, res) {
 
 async function modificar(req, res) {
     try {
-        //Await
-    } catch (error) {
+        const idUsuario=req.params.id;
+        const update=req.body;
 
+        await usuarioModelo.findByIdAndUpdate(idUsuario, update, {new:true}, (error,usuarioModificado)=>{
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuarioModificado) return res.send(404).send({ status: '404' });
+
+            return res.status(200).send(usuarioModificado);
+        });
+
+    } catch (error) {
+        return res.status(500).send({ status: 'failed' });
     }
 }
 
@@ -73,13 +83,13 @@ async function eliminar(req, res) {
         await usuarioModelo.findByIdAndDelete(idUsuario, (error,usuarioBorrado)=>{
             if (error) return res.status(500).send({ status: 'failed' });
 
-            if (!usuarioBorrado) return res.send(404).send({ status: '404' });
+            if (!usuarioBorrado) return res.status(404).send({ status: '404' });
 
             return res.status(200).send(usuarioBorrado);
         });
 
     } catch (error) {
-
+        return res.status(500).send({ status: 'failed' });
     }
 }
 
