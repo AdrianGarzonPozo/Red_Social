@@ -33,7 +33,7 @@ async function recuperarUno(req, res) {
 
 async function añadirNuevo(req, res) {
     try {
-        
+
         var params = req.body;
         newUsuario=params;  //Llega por formulario el nombre, biografia, contraseña, correo, foto_perfil
 
@@ -44,8 +44,8 @@ async function añadirNuevo(req, res) {
         newUsuario.publicaciones = [];
 
 
-        await new usuarioModelo(newUsuario).save((err, usuarioGuardado) => {
-            if (err) return res.status(500).send({ status: 'failed' });
+        await new usuarioModelo(newUsuario).save((error, usuarioGuardado) => {
+            if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioGuardado) return res.send(404).send({ status: '404' });
 
@@ -68,7 +68,16 @@ async function modificar(req, res) {
 
 async function eliminar(req, res) {
     try {
-        //Await
+        const idUsuario=req.params.id;
+
+        await usuarioModelo.findByIdAndDelete(idUsuario, (error,usuarioBorrado)=>{
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuarioBorrado) return res.send(404).send({ status: '404' });
+
+            return res.status(200).send(usuarioBorrado);
+        });
+
     } catch (error) {
 
     }
