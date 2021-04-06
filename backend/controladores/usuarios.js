@@ -16,24 +16,28 @@ async function recuperarTodos(req, res) {
 async function recuperarUno(req, res) {
 
     try {
-        //Await
-    } catch (error) {
+        const idUsuario=req.params.id;
 
+        await usuarioModelo.findById(idUsuario,(error,usuarioRecuperado)=>{
+            if (error) return res.status(500).send({ status: 'failed' });
+            if (!usuarioRecuperado) return res.send(404).send({ status: '404' });
+
+            return res.status(200).send(usuarioRecuperado);
+
+        });
+
+    } catch (error) {
+        return res.status(500).send({ status: 'failed' });
     }
 }
 
 async function añadirNuevo(req, res) {
     try {
-        const newUsuario = new usuarioModelo();
-
+        
         var params = req.body;
+        newUsuario=params;  //Llega por formulario el nombre, biografia, contraseña, correo, foto_perfil
 
-        newUsuario.nombre = params.nombre;
-        newUsuario.biografia = params.biografia;
-        newUsuario.contrasena = params.biografia;
-        newUsuario.correo = params.correo;
-        newUsuario.foto_perfil = params.foto_perfil;
-        newUsuario.tipo_cuenta = true;
+        newUsuario.tipo_cuenta = true; 
         newUsuario.telefono_p2p = '0';
         newUsuario.siguiendo = [];
         newUsuario.seguidores = [];
