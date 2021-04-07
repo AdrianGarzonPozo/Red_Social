@@ -1,6 +1,7 @@
 var usuarioModelo = require('../modelos/usuarios');
 var fs = require('fs');
 var path = require('path');
+const multer = require('multer');
 
 async function recuperarTodos(req, res) {
     try {
@@ -16,9 +17,9 @@ async function recuperarTodos(req, res) {
 async function recuperarUno(req, res) {
 
     try {
-        const idUsuario=req.params.id;
+        const idUsuario = req.params.id;
 
-        await usuarioModelo.findById(idUsuario,(error,usuarioRecuperado)=>{
+        await usuarioModelo.findById(idUsuario, (error, usuarioRecuperado) => {
             if (error) return res.status(500).send({ status: 'failed' });
             if (!usuarioRecuperado) return res.status(404).send({ status: '404' });
 
@@ -35,9 +36,9 @@ async function añadirNuevo(req, res) {
     try {
 
         var params = req.body;
-        newUsuario=params;  //Llega por formulario el nombre, biografia, contraseña, correo, foto_perfil
+        newUsuario = params;  //Llega por formulario el nombre, biografia, contraseña, correo, foto_perfil
 
-        newUsuario.tipo_cuenta = true; 
+        newUsuario.tipo_cuenta = true;
         newUsuario.telefono_p2p = '0';
         newUsuario.siguiendo = [];
         newUsuario.seguidores = [];
@@ -60,10 +61,10 @@ async function añadirNuevo(req, res) {
 
 async function modificar(req, res) {
     try {
-        const idUsuario=req.params.id;
-        const update=req.body;
+        const idUsuario = req.params.id;
+        const update = req.body;
 
-        await usuarioModelo.findByIdAndUpdate(idUsuario, update, {new:true}, (error,usuarioModificado)=>{
+        await usuarioModelo.findByIdAndUpdate(idUsuario, update, { new: true }, (error, usuarioModificado) => {
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioModificado) return res.send(404).send({ status: '404' });
@@ -78,9 +79,9 @@ async function modificar(req, res) {
 
 async function eliminar(req, res) {
     try {
-        const idUsuario=req.params.id;
+        const idUsuario = req.params.id;
 
-        await usuarioModelo.findByIdAndDelete(idUsuario, (error,usuarioBorrado)=>{
+        await usuarioModelo.findByIdAndDelete(idUsuario, (error, usuarioBorrado) => {
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioBorrado) return res.status(404).send({ status: '404' });
@@ -93,11 +94,77 @@ async function eliminar(req, res) {
     }
 }
 
+
+
+
 async function subirImagen(req, res) {
     try {
-        //Await
-    } catch (error) {
+        //Subir imagen al servidor
 
+        var idUsuario = ''
+        var foto_perfil = '';
+
+        const storage = multer.diskStorage({
+            destination: path.join(__dirname, '../public/uploads/foto_perfil'),
+            filename: (req, file, res) => {
+                foto_perfil = req.params.id + path.extname(file.originalname).toLowerCase();
+                res(null, foto_perfil);
+            }
+        });
+        const multerMiddleware = multer({            //Subida de imagenes
+            storage: storage,
+            dest: path.join(__dirname, '../public/uploads/foto_perfil'),
+            limits: { fileSize: 30000000 },             //Tamaño maximo 30Mb
+            fileFilter: (req, file, res) => {
+                const extValidas = /jpeg|jpg|png/;
+                const mimetype = extValidas.test(file.mimetype); //Compruebo la extension
+                const extension = extValidas.test(path.extname(file.originalname));
+
+                if (mimetype && extension) {
+                    console.log(req.params.id);
+                    console.log(path.extname(file.originalname).toLowerCase());
+
+                    //PARA BORRAR LA FOTO ANTERIOR
+                    /* usuarioModelo.findById(req.params.id, (error, usuario) => {
+                        console.log(usuario);
+                        fs.unlinkSync(path.join(__dirname, '../public/uploads/foto_perfil/' + req.params.id + path.extname(file.originalname).toLowerCase()));
+                        console.log("2");
+                    }); */
+
+                    console.log("1");
+                    return res(null, true);
+                }
+                return res('Extension');
+            }
+        }).single('foto_perfil');  //Nombre del input desde donde se subira la imagen
+
+        multerMiddleware(req, res, (err) => {
+            if (err) {
+                return res.send({ status: err });
+            }
+            idUsuario = req.params.id;
+            var update = { foto_perfil: foto_perfil };
+
+
+            return res.send(prueba());
+            async function prueba(req, res) {
+                await usuarioModelo.findByIdAndUpdate(idUsuario, update, { new: true }, (error, usuarioModificado) => {
+
+                    console.log("sdfsd");
+                    if (error) return res.status(500).send({ status: 'failed' });
+
+                    if (!usuarioModificado) return res.send(404).send({ status: '404' });
+
+                    /* return res.status(200).send(usuarioModificado); */
+                    return "hola";
+                });
+            }
+
+        });
+
+
+    } catch (error) {
+        return res.status(500).send({ status: 'failed' });
     }
 }
 

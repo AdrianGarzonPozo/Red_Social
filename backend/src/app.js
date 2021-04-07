@@ -1,16 +1,17 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
 
 var app = express();
 
 //Cargar archivos de rutas
-var usuarios_rutas=require('./rutas/usuarios');
-var publicaciones_rutas=require('./rutas/publicaciones');
-var comentarios_rutas=require('./rutas/comentarios');
+var usuarios_rutas = require('./rutas/usuarios');
+var publicaciones_rutas = require('./rutas/publicaciones');
+var comentarios_rutas = require('./rutas/comentarios');
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: false })); //Activar body-parser
 app.use(bodyParser.json()); //Cualquier peticion que llegue la convierte a json
+
 
 //cors, para cuando hagamos peticiones desde angular no de problemas ya que estara en el proyecto en produccion desde otro dominio
 // Configurar cabeceras
