@@ -14,7 +14,7 @@ router.delete('/usuarios/:id', UsuariosControlador.eliminar); //Borrar
 
 //Guardar la foto del perfil del usuario
 router.post('/subirImagen/:id', UsuariosControlador.subirImagen);
-router.get('/imagen/:imagen', UsuariosControlador.recuperarImagen);
+router.get('/recuperarImagen/:id', UsuariosControlador.recuperarImagen);
 
 router.post('/seguir/:id/:seguir', UsuariosControlador.seguir); //Seguir a otro usuario
 

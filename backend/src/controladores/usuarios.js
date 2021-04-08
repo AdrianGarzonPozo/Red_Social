@@ -158,9 +158,17 @@ async function subirImagen(req, res) {
 
 async function recuperarImagen(req, res) {
     try {
-        //Await
-    } catch (error) {
+        var idUsuario=req.params.id;
+        var foto_perfil='./src/public/uploads/foto_perfil/'+idUsuario+'.jpg';
+        console.log(foto_perfil);
+        fs.stat(foto_perfil,(error,exists)=>{
+            if(exists) return res.status(200).sendFile(path.resolve(foto_perfil));
+            return res.status(500).send({status: 'failed'});
+        });
 
+
+        } catch (error) {
+            return res.status(500).send({status: 'failed'});
     }
 }
 
