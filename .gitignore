@@ -7,4 +7,4 @@ Plantillas
 #Proyecto Carpetas
 node_modules
 
-src/public/uploads/foto_perfil *.jpg
+src/public/uploads/foto_perfil/*
