@@ -16,7 +16,7 @@ router.delete('/usuarios/:id', UsuariosControlador.eliminar); //Borrar
 router.post('/subirImagen/:id', UsuariosControlador.subirImagen);
 router.get('/recuperarImagen/:id', UsuariosControlador.recuperarImagen);
 
-router.post('/seguir/:id/:seguir', UsuariosControlador.seguir); //Seguir a otro usuario
+router.put('/seguir/:id/:seguir', UsuariosControlador.seguir); //Seguir a otro usuario
 
 
 module.exports = router;

@@ -129,8 +129,8 @@ async function subirImagen(req, res) {
 
         multerMiddleware(req, res, (err) => {
             if (err) {
-                if(err=="EXT_FAILED") return res.status(500).send({ status: "EXT_FAILED" });
-                return res.status(500).send({status:"LIMIT_SIZE"});
+                if (err == "EXT_FAILED") return res.status(500).send({ status: "EXT_FAILED" });
+                return res.status(500).send({ status: "LIMIT_SIZE" });
             }
             idUsuario = req.params.id;
             var update = { foto_perfil: foto_perfil };
@@ -147,7 +147,7 @@ async function subirImagen(req, res) {
                 });
             }
 
-            return res.send({status:'success'});
+            return res.send({ status: 'success' });
         });
 
 
@@ -158,26 +158,59 @@ async function subirImagen(req, res) {
 
 async function recuperarImagen(req, res) {
     try {
-        var idUsuario=req.params.id;
-        var foto_perfil='./src/public/uploads/foto_perfil/'+idUsuario+'.jpg';
+        const idUsuario = req.params.id;
+        var foto_perfil = './src/public/uploads/foto_perfil/' + idUsuario + '.jpg';
         console.log(foto_perfil);
-        fs.stat(foto_perfil,(error,exists)=>{
-            if(exists) return res.status(200).sendFile(path.resolve(foto_perfil));
-            return res.status(500).send({status: 'failed'});
+        fs.stat(foto_perfil, (error, exists) => {
+            if (exists) return res.status(200).sendFile(path.resolve(foto_perfil));
+            return res.status(500).send({ status: 'failed' });
         });
 
 
-        } catch (error) {
-            return res.status(500).send({status: 'failed'});
+    } catch (error) {
+        return res.status(500).send({ status: 'failed' });
     }
 }
 
 async function seguir(req, res) {
     try {
+        const idUsuario = req.params.id;
+        const idUsuarioaSeguir = req.params.seguir;
+
+        //Se duplica el ID en el array siguiendo del idUsuario
+        //Al usuario idUsuario se le añadira en el array siguiendo el usuario idUsuarioaSeguir
+        await usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'siguiendo': idUsuarioaSeguir } }, { new: true }, (error, usuarioModificado) => {
+            console.log('1');
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuarioModificado) return res.send(404).send({ status: '404' });
+
+            //Al usuario idUsuarioaSeguir se le añadira en el array seguidores el usuario idUsuario
+            seguidores();
+            async function seguidores(req, res) {
+                await usuarioModelo.findByIdAndUpdate(idUsuarioaSeguir, { $push: { 'seguidores': idUsuario } }, { new: true }, (error, usuarioModificado) => {
+                    if (error) return res.status(500).send({ status: 'failed' });
+
+                    if (!usuarioModificado) return res.send(404).send({ status: '404' });
+
+                });
+            }
+            return res.status(200).send({ status: 'success' });
+
+        });
+
 
     } catch (error) {
-        console.log(error);
+        return res.status(500).send({ status: 'failed' });
     }
 }
 
-module.exports = { recuperarTodos, recuperarUno, añadirNuevo, modificar, eliminar, subirImagen, recuperarImagen, seguir };
+async function dejarSeguir(req,res){
+    try{
+
+    }catch(error){
+        return res.status(500).send({ status: 'failed' });
+    }
+}
+
+module.exports = { recuperarTodos, recuperarUno, añadirNuevo, modificar, eliminar, subirImagen, recuperarImagen, seguir, dejarSeguir };
