@@ -1,5 +1,10 @@
+#GENERAL
 *.pdf
 Diagrama.jpg
 Objetivos.txt
-node_modules
 Plantillas
+
+#Proyecto Carpetas
+node_modules
+
+src/public/uploads/foto_perfil *.jpg
