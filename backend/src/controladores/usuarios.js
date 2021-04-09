@@ -39,8 +39,14 @@ async function añadirNuevo(req, res) {
         var params = req.body;
         newUsuario = params;  //Llega por formulario el nombre, biografia, contraseña, correo, foto_perfil
 
+        var fecha = new Date();
+        let dia = ("0" + fecha.getDate()).slice(-2);
+        let mes = ("0" + (fecha.getMonth() + 1)).slice(-2);
+        let año = fecha.getFullYear();
+
         newUsuario.tipo_cuenta = true;
         newUsuario.telefono_p2p = '0';
+        newUsuario.creacion=(año+"-"+mes+"-"+dia);
         newUsuario.siguiendo = [];
         newUsuario.seguidores = [];
         newUsuario.publicaciones = [];
@@ -180,7 +186,7 @@ async function seguir(req, res) {
         //Se duplica el ID en el array siguiendo del idUsuario
         //Al usuario idUsuario se le añadira en el array siguiendo el usuario idUsuarioaSeguir
         await usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'siguiendo': idUsuarioaSeguir } }, { new: true }, (error, usuarioModificado) => {
-            console.log('1');
+            
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioModificado) return res.send(404).send({ status: '404' });
@@ -205,10 +211,10 @@ async function seguir(req, res) {
     }
 }
 
-async function dejarSeguir(req,res){
-    try{
+async function dejarSeguir(req, res) {
+    try {
 
-    }catch(error){
+    } catch (error) {
         return res.status(500).send({ status: 'failed' });
     }
 }

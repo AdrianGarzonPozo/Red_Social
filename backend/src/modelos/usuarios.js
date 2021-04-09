@@ -9,6 +9,7 @@ var UsuarioSchema = Schema({
     foto_perfil: String,
     tipo_cuenta: Boolean,
     telefono_p2p: Number,
+    creacion: String,
     siguiendo: [String],
     seguidores: [String],
     publicaciones: [String]
