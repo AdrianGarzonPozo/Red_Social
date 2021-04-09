@@ -2,7 +2,7 @@ var usuarioModelo = require('../modelos/usuarios');
 var fs = require('fs');
 var path = require('path');
 const multer = require('multer');
-const { send } = require('process');
+const bcrypt = require('bcryptjs');
 
 async function recuperarTodos(req, res) {
     try {
@@ -44,21 +44,31 @@ async function añadirNuevo(req, res) {
         let mes = ("0" + (fecha.getMonth() + 1)).slice(-2);
         let año = fecha.getFullYear();
 
-        newUsuario.tipo_cuenta = true;
-        newUsuario.telefono_p2p = '0';
-        newUsuario.creacion = (año + "-" + mes + "-" + dia);
-        newUsuario.siguiendo = [];
-        newUsuario.seguidores = [];
-        newUsuario.publicaciones = [];
-
-
-        await new usuarioModelo(newUsuario).save((error, usuarioGuardado) => {
+        //Se salta este paso    SOLUCIONAR
+        bcrypt.hash(params.contrasena, 10, (error, palabraEncriptada) => {
             if (error) return res.status(500).send({ status: 'failed' });
 
-            if (!usuarioGuardado) return res.send(404).send({ status: '404' });
+            newUsuario.contrasena = palabraEncriptada;
+            newUsuario.tipo_cuenta = true;
+            newUsuario.telefono_p2p = '0';
+            newUsuario.creacion = (año + "-" + mes + "-" + dia);
+            newUsuario.siguiendo = [];
+            newUsuario.seguidores = [];
+            newUsuario.publicaciones = [];
 
+            add();
             return res.status(200).send({ status: 'success' });
         });
+
+        const add = async function añadir(req, res) {
+            await new usuarioModelo(newUsuario).save((error, usuarioGuardado) => {
+                console.log("hola");
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!usuarioGuardado) return res.send(404).send({ status: '404' });
+
+            });
+        }
 
 
     } catch (error) {
