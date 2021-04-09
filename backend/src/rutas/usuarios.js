@@ -17,6 +17,7 @@ router.post('/subirImagen/:id', UsuariosControlador.subirImagen);
 router.get('/recuperarImagen/:id', UsuariosControlador.recuperarImagen);
 
 router.put('/seguir/:id/:seguir', UsuariosControlador.seguir); //Seguir a otro usuario
+router.put('/dejarSeguir/:id/:noseguir', UsuariosControlador.dejarSeguir); //Seguir a otro usuario
 
 
 module.exports = router;

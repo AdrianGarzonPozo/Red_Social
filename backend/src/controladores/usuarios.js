@@ -46,7 +46,7 @@ async function añadirNuevo(req, res) {
 
         newUsuario.tipo_cuenta = true;
         newUsuario.telefono_p2p = '0';
-        newUsuario.creacion=(año+"-"+mes+"-"+dia);
+        newUsuario.creacion = (año + "-" + mes + "-" + dia);
         newUsuario.siguiendo = [];
         newUsuario.seguidores = [];
         newUsuario.publicaciones = [];
@@ -186,7 +186,7 @@ async function seguir(req, res) {
         //Se duplica el ID en el array siguiendo del idUsuario
         //Al usuario idUsuario se le añadira en el array siguiendo el usuario idUsuarioaSeguir
         await usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'siguiendo': idUsuarioaSeguir } }, { new: true }, (error, usuarioModificado) => {
-            
+
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioModificado) return res.send(404).send({ status: '404' });
@@ -213,6 +213,29 @@ async function seguir(req, res) {
 
 async function dejarSeguir(req, res) {
     try {
+        const idUsuario = req.params.id;
+        const idUsuarionoSeguir = req.params.noseguir;
+
+        //Al usuario idUsuario se le quitara del array siguiendo el usuario idUsuarioaSeguir
+        await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'siguiendo': idUsuarionoSeguir } }, { new: true }, (error, usuarioModificado) => {
+
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuarioModificado) return res.send(404).send({ status: '404' });
+
+            //Al usuario idUsuarionoSeguir se le quitara del array seguidores el usuario idUsuario
+            seguidores();
+            async function seguidores(req, res) {
+                await usuarioModelo.findByIdAndUpdate(idUsuarionoSeguir, { $pull: { 'seguidores': idUsuario } }, { new: true }, (error, usuarioModificado) => {
+                    if (error) return res.status(500).send({ status: 'failed' });
+
+                    if (!usuarioModificado) return res.send(404).send({ status: '404' });
+
+                });
+            }
+            return res.status(200).send({ status: 'success' });
+
+        });
 
     } catch (error) {
         return res.status(500).send({ status: 'failed' });
