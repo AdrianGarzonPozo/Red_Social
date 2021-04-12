@@ -9,9 +9,7 @@ async function recuperarTodos(req, res) {
         const usuarios = await usuarioModelo.find({});
         return res.status('200').send(usuarios && usuarios.length > 0 ? usuarios : []);
     } catch (error) {
-        return res.status(400).send({
-            status: 'failure'
-        });
+        return res.status(500).send({ status: 'failed' });
     }
 }
 
