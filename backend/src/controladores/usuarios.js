@@ -60,7 +60,6 @@ async function añadirNuevo(req, res) {
 
         const add = async function añadir(req, res) {
             await new usuarioModelo(newUsuario).save((error, usuarioGuardado) => {
-                console.log("hola");
                 if (error) return res.status(500).send({ status: 'failed' });
 
                 if (!usuarioGuardado) return res.send(404).send({ status: '404' });

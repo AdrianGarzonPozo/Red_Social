@@ -1,4 +1,5 @@
 var publicacionModelo = require('../modelos/publicaciones');
+var usuarioModelo = require('../modelos/usuarios');
 var fs = require('fs');
 var path = require('path');
 
@@ -32,7 +33,55 @@ async function recuperarUna(req, res) {
 
 async function añadirNueva(req, res) {
     try {
-        //Await
+        const idUsuario=req.params.idUsuario;
+
+        var fecha = new Date();
+        let dia = ("0" + fecha.getDate()).slice(-2);
+        let mes = ("0" + (fecha.getMonth() + 1)).slice(-2);
+        let año = fecha.getFullYear();
+
+        const nuevaPublicacion=req.body;
+        nuevaPublicacion.idUsuario=idUsuario;
+        nuevaPublicacion.fecha_publicacion=año+"-"+mes+"-"+dia;
+        nuevaPublicacion.likes=[];
+        nuevaPublicacion.comentarios=[];
+
+        const addPublicacion=new publicacionModelo(nuevaPublicacion);
+
+        //A VECES SE GUARDAR x2 EN EL ARRAY PUBLICACIONES   SOLUCIONAR 
+        await usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'publicaciones': addPublicacion._id } }, { new: true }, (error, usuarioModificado) => {
+         
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuarioModificado) return res.status(500).send({ status: 'failed' });
+
+            addPublicacion.save((error,publicacion)=>{
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!publicacion) return res.status(500).send({ status: 'failed' });
+            });
+
+            return res.status(200).send({status:'success'});
+        });
+
+       /*  await new publicacionModelo(nuevaPublicacion).save((error,publicacion)=>{
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!publicacion) return res.status(500).send({ status: 'failed' });
+
+            console.log("2");
+
+            usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'publicaciones': publicacion._id } }, { new: true }, (error, usuarioModificado) => {
+                console.log("1");
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!usuarioModificado) return res.status(500).send({ status: 'failed' });
+            });
+
+            return res.status(200).send({status:'success'});
+        });
+ */
+
     } catch (error) {
 
     }
