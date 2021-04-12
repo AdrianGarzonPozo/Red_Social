@@ -15,7 +15,16 @@ async function recuperarTodas(req, res) {
 
 async function recuperarUna(req, res) {
     try {
-        //Await
+        const idPublicacion=req.params.id;
+
+        publicacionModelo.findById(idPublicacion, (error,publicacion)=>{
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!publicacion) return res.status(500).send({ status: 'failed' });
+
+            return res.status(200).send(publicacion);
+        });
+
     } catch (error) {
 
     }
