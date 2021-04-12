@@ -7,6 +7,7 @@ var app = express();
 var usuarios_rutas = require('./rutas/usuarios');
 var publicaciones_rutas = require('./rutas/publicaciones');
 var comentarios_rutas = require('./rutas/comentarios');
+var login_logout=require('./rutas/login_logout');
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: false })); //Activar body-parser
@@ -28,5 +29,6 @@ app.use((req, res, next) => {
 app.use('/api', usuarios_rutas);
 app.use('/api', publicaciones_rutas);
 app.use('/api', comentarios_rutas);
+app.use('/', login_logout);
 
 module.exports = app;

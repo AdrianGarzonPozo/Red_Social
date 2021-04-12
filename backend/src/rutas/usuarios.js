@@ -1,6 +1,5 @@
 const express = require('express');
 const UsuariosControlador = require('../controladores/usuarios');
-const path = require('path');
 
 var router = express.Router();
 
