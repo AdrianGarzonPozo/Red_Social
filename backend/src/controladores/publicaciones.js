@@ -101,16 +101,16 @@ async function eliminar(req, res) {
         idPublicacion = req.params.id;
 
         await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'publicaciones': idPublicacion } }, { new: true }, (error, usuario) => {
-        
+
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuario) return res.send(500).send({ status: 'failed' });
-    
+
             borrar();
             async function borrar(req, res) {
-            
+
                 await publicacionModelo.findByIdAndDelete(idPublicacion, (err, publicacion) => {
-                  
+
                     if (err) return res.status(500).send({ status: 'failed' });
 
                     if (!publicacion) return res.send(500).send({ status: 'failed' });
@@ -142,4 +142,68 @@ async function recuperarImagen(req, res) {
     }
 }
 
-module.exports = { recuperarTodas, recuperarUna, añadirNueva, modificar, eliminar, subirImagen, recuperarImagen };
+async function like(req, res) {
+
+    try {
+        idUsuario = req.params.idUsuario;
+        idPublicacion = req.params.id;
+
+        //Se duplica    SOLUCIONAR
+
+        await usuarioModelo.find({ _id: idUsuario }, (error, usuario) => {
+
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuario) return res.send(500).send({ status: 'failed' });
+
+            añadirLike();
+            async function añadirLike(req, res) {
+                await publicacionModelo.findByIdAndUpdate(idPublicacion, { $push: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
+
+                    if (error) return res.status(500).send({ status: 'failed' });
+
+                    if (!publicacion) return res.send(404).send({ status: 'failed' });
+
+                });
+            }
+
+            return res.status(200).send({ status: 'success' });
+        });
+    } catch (error) {
+        if (error) return res.status(500).send({ status: 'failed' });
+    }
+
+}
+
+async function disLike(req, res) {
+
+    try {
+        idUsuario = req.params.idUsuario;
+        idPublicacion = req.params.id;
+
+        await usuarioModelo.find({ _id: idUsuario }, (error, usuario) => {
+
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuario) return res.send(500).send({ status: 'failed' });
+
+            eliminar();
+            async function eliminar(req, res) {
+                await publicacionModelo.findByIdAndUpdate(idPublicacion, { $pull: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
+
+                    if (error) return res.status(500).send({ status: 'failed' });
+
+                    if (!publicacion) return res.send(404).send({ status: 'failed' });
+
+                });
+            }
+
+            return res.status(200).send({ status: 'success' });
+        });
+    } catch (error) {
+        if (error) return res.status(500).send({ status: 'failed' });
+    }
+
+}
+
+module.exports = { recuperarTodas, recuperarUna, añadirNueva, modificar, eliminar, subirImagen, recuperarImagen, like, disLike };

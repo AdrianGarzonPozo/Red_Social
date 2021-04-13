@@ -14,5 +14,8 @@ router.delete('/publicaciones/:idUsuario/:id', PublicacionesControlador.eliminar
 router.post('/subirImagen/:id', PublicacionesControlador.subirImagen);
 router.get('/recuperarImagen/:id', PublicacionesControlador.recuperarImagen);
 
+router.put('/like/:idUsuario/:id', PublicacionesControlador.like);
+router.put('/disLike/:idUsuario/:id', PublicacionesControlador.disLike);
+
 
 module.exports = router;
