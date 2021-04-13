@@ -55,11 +55,14 @@ async function añadirNueva(req, res) {
 
             if (!usuarioModificado) return res.status(500).send({ status: 'failed' });
 
-            addPublicacion.save((error, publicacion) => {
-                if (error) return res.status(500).send({ status: 'failed' });
+            añadir();
+            async function añadir(req, res) {
+                await addPublicacion.save((error, publicacion) => {
+                    if (error) return res.status(500).send({ status: 'failed' });
 
-                if (!publicacion) return res.status(500).send({ status: 'failed' });
-            });
+                    if (!publicacion) return res.status(500).send({ status: 'failed' });
+                });
+            }
 
             return res.status(200).send({ status: 'success' });
         });
@@ -71,11 +74,11 @@ async function añadirNueva(req, res) {
 
 async function modificar(req, res) {
     try {
-       
-        idPublicacion=req.params.id;
-        textoNuevo=req.body.texto_foto;
 
-        publicacionModelo.findByIdAndUpdate(idPublicacion,{texto_foto: textoNuevo}, {new:true}, (error, publicacion)=>{
+        idPublicacion = req.params.id;
+        textoNuevo = req.body.texto_foto;
+
+        await publicacionModelo.findByIdAndUpdate(idPublicacion, { texto_foto: textoNuevo }, { new: true }, (error, publicacion) => {
 
             if (error) return res.status(500).send({ status: 'failed' });
 
@@ -87,15 +90,39 @@ async function modificar(req, res) {
 
 
     } catch (error) {
-
+        if (error) return res.status(500).send({ status: 'failed' });
     }
 }
 
 async function eliminar(req, res) {
     try {
-        //Await
-    } catch (error) {
 
+        idUsuario = req.params.idUsuario;
+        idPublicacion = req.params.id;
+
+        await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'publicaciones': idPublicacion } }, { new: true }, (error, usuario) => {
+        
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!usuario) return res.send(500).send({ status: 'failed' });
+    
+            borrar();
+            async function borrar(req, res) {
+            
+                await publicacionModelo.findByIdAndDelete(idPublicacion, (err, publicacion) => {
+                  
+                    if (err) return res.status(500).send({ status: 'failed' });
+
+                    if (!publicacion) return res.send(500).send({ status: 'failed' });
+
+                });
+            }
+            return res.status(200).send({ status: 'success' });
+
+        });
+
+    } catch (error) {
+        if (error) return res.status(500).send({ status: 'failed' });
     }
 }
 

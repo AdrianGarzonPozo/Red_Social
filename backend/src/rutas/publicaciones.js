@@ -8,7 +8,7 @@ router.get('/publicaciones', PublicacionesControlador.recuperarTodas);
 router.get('/publicaciones/:id', PublicacionesControlador.recuperarUna);
 router.post('/publicaciones/:idUsuario', PublicacionesControlador.añadirNueva);
 router.put('/publicaciones/:id', PublicacionesControlador.modificar);
-router.delete('/publicaciones/:id', PublicacionesControlador.eliminar);
+router.delete('/publicaciones/:idUsuario/:id', PublicacionesControlador.eliminar);
 
 
 router.post('/subirImagen/:id', PublicacionesControlador.subirImagen);
