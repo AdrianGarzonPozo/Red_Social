@@ -16,9 +16,9 @@ async function recuperarTodas(req, res) {
 
 async function recuperarUna(req, res) {
     try {
-        const idPublicacion=req.params.id;
+        const idPublicacion = req.params.id;
 
-        publicacionModelo.findById(idPublicacion, (error,publicacion)=>{
+        publicacionModelo.findById(idPublicacion, (error, publicacion) => {
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!publicacion) return res.status(500).send({ status: 'failed' });
@@ -33,63 +33,59 @@ async function recuperarUna(req, res) {
 
 async function añadirNueva(req, res) {
     try {
-        const idUsuario=req.params.idUsuario;
+        const idUsuario = req.params.idUsuario;
 
         var fecha = new Date();
         let dia = ("0" + fecha.getDate()).slice(-2);
         let mes = ("0" + (fecha.getMonth() + 1)).slice(-2);
         let año = fecha.getFullYear();
 
-        const nuevaPublicacion=req.body;
-        nuevaPublicacion.idUsuario=idUsuario;
-        nuevaPublicacion.fecha_publicacion=año+"-"+mes+"-"+dia;
-        nuevaPublicacion.likes=[];
-        nuevaPublicacion.comentarios=[];
+        const nuevaPublicacion = req.body;
+        nuevaPublicacion.idUsuario = idUsuario;
+        nuevaPublicacion.fecha_publicacion = año + "-" + mes + "-" + dia;
+        nuevaPublicacion.likes = [];
+        nuevaPublicacion.comentarios = [];
 
-        const addPublicacion=new publicacionModelo(nuevaPublicacion);
+        const addPublicacion = new publicacionModelo(nuevaPublicacion);
 
         //A VECES SE GUARDAR x2 EN EL ARRAY PUBLICACIONES   SOLUCIONAR 
         await usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'publicaciones': addPublicacion._id } }, { new: true }, (error, usuarioModificado) => {
-         
+
             if (error) return res.status(500).send({ status: 'failed' });
 
             if (!usuarioModificado) return res.status(500).send({ status: 'failed' });
 
-            addPublicacion.save((error,publicacion)=>{
+            addPublicacion.save((error, publicacion) => {
                 if (error) return res.status(500).send({ status: 'failed' });
 
                 if (!publicacion) return res.status(500).send({ status: 'failed' });
             });
 
-            return res.status(200).send({status:'success'});
+            return res.status(200).send({ status: 'success' });
         });
-
-       /*  await new publicacionModelo(nuevaPublicacion).save((error,publicacion)=>{
-            if (error) return res.status(500).send({ status: 'failed' });
-
-            if (!publicacion) return res.status(500).send({ status: 'failed' });
-
-            console.log("2");
-
-            usuarioModelo.findByIdAndUpdate(idUsuario, { $push: { 'publicaciones': publicacion._id } }, { new: true }, (error, usuarioModificado) => {
-                console.log("1");
-                if (error) return res.status(500).send({ status: 'failed' });
-
-                if (!usuarioModificado) return res.status(500).send({ status: 'failed' });
-            });
-
-            return res.status(200).send({status:'success'});
-        });
- */
 
     } catch (error) {
-
+        if (error) return res.status(500).send({ status: 'failed' });
     }
 }
 
 async function modificar(req, res) {
     try {
-        //Await
+       
+        idPublicacion=req.params.id;
+        textoNuevo=req.body.texto_foto;
+
+        publicacionModelo.findByIdAndUpdate(idPublicacion,{texto_foto: textoNuevo}, {new:true}, (error, publicacion)=>{
+
+            if (error) return res.status(500).send({ status: 'failed' });
+
+            if (!publicacion) return res.status(500).send({ status: 'failed' });
+
+            return res.status(200).send(publicacion);
+        });
+
+
+
     } catch (error) {
 
     }
