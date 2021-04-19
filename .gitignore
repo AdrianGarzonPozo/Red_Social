@@ -6,6 +6,7 @@ Plantillas
 
 #Proyecto Carpetas
 node_modules
+build
 
 backend/src/public/uploads/foto_perfil/*.jpg
 backend/src/public/uploads/foto_perfil/606c7b302691cd1cc8538af8.jpg
