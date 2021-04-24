@@ -7,11 +7,11 @@ router.get('/publicaciones', publicacionControlador.recuperarTodas);
 router.get('/publicaciones/:idPublicacion', publicacionControlador.recuperarUna);
 router.post('/publicaciones/:idUsuario', publicacionControlador.añadirNueva);
 router.put('/publicaciones/:idPublicacion', publicacionControlador.modificar);
-/* router.delete('/publicaciones/:idUsuario/:id', publicacionControlador.eliminar); */
+router.delete('/publicaciones/:idUsuario/:idPublicacion', publicacionControlador.eliminar);
 
 
-router.post('/subirImagen/:idPublicacion', publicacionControlador.subirImagen);
-router.get('/recuperarImagen/:idPublicacion', publicacionControlador.recuperarImagen);
+router.post('/subirImagenPublicacion/:idPublicacion', publicacionControlador.subirImagen);
+router.get('/recuperarImagenPublicacion/:idPublicacion', publicacionControlador.recuperarImagen);
 
 router.put('/like/:idUsuario/:idPublicacion', publicacionControlador.like);
 router.put('/disLike/:idUsuario/:idPublicacion', publicacionControlador.disLike);

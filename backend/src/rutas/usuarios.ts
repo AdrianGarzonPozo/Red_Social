@@ -11,7 +11,7 @@ router.get('/usuarios', usuarioControlador.recuperarTodos); //Recuperar todos
 router.get('/usuarios/:idUsuario', usuarioControlador.recuperarUno); //Recuperar 1
 router.post('/usuarios', usuarioControlador.añadirNuevo); //Añadir
 router.put('/usuarios/:idUsuario', usuarioControlador.modificar); //Editar
-//router.delete('/usuarios/:id', usuarioControlador.eliminar); //Borrar 
+router.delete('/usuarios/:idUsuario', usuarioControlador.eliminar); //Borrar 
 
 //Guardar la foto del perfil del usuario con multer
 

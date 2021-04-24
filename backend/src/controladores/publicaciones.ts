@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 import publicacionModelo, { Publicacion } from '../modelos/Publicacion';
 import usuarioModelo, { Usuario } from '../modelos/Usuario';
 
+var fs = require('fs');
+var path = require('path');
+const multer = require('multer');
+
 class PublicacionControlador {
     public async recuperarTodas(req: Request, res: Response): Promise<Publicacion[] | Object> {
         try {
@@ -54,15 +58,17 @@ class PublicacionControlador {
 
                 if (!usuarioModificado) return res.status(404).send({ status: '404' });
 
-                addPublicacion.save((error, publicacion) => {
-                    if (error) return res.status(500).send({ status: 'failed' });
-
-                    if (!publicacion) return res.status(404).send({ status: '404' });
-                });
-
-
-                return res.status(200).send({ status: 'success' });
             });
+
+
+            await addPublicacion.save((error, publicacion) => {
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!publicacion) return res.status(404).send({ status: '404' });
+            });
+
+
+            return res.status(200).send({ status: 'success' });
 
         } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
@@ -89,48 +95,96 @@ class PublicacionControlador {
         }
     }
 
-    //error,usuarioBorrado -> typescript
-    /* public async eliminar(req: Request, res: Response) {
+    
+    public async eliminar(req: Request, res: Response) {
         try {
 
             const idUsuario: String = req.params.idUsuario;
             const idPublicacion: String = req.params.idPublicacion;
+            
+            await publicacionModelo.findByIdAndDelete(idPublicacion, {}, (error: any, publicacion: any) => {
 
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!publicacion) return res.status(404).send({ status: '404' });
+
+            });
+            
             await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'publicaciones': idPublicacion } }, { new: true }, (error: String, usuario: any) => {
 
                 if (error) return res.status(500).send({ status: 'failed' });
 
-                if (!usuario) return res.send(404).send({ status: '404' });
+                if (!usuario) return res.status(404).send({ status: '404' });
 
-                publicacionModelo.findByIdAndDelete(idPublicacion, (error: any, publicacion: any) => {
+            });
 
+            return res.status(200).send({ status: 'success' });
+
+
+        } catch (error:any) {
+            if (error) return res.status(500).send({ status: 'failed' });
+        }
+    } 
+
+    public async subirImagen(req: Request, res: Response) {
+        try {
+            const idPublicacion: String = req.params.idPublicacion;
+
+            const storage = multer.diskStorage({
+                destination: path.join(__dirname, '../public/uploads/foto_publicacion'),
+                filename: (req: Request, file: any, cb: any) => {
+                    cb(null, idPublicacion + '.jpg');
+                }
+            });
+            const upload = multer({
+                storage: storage,
+                dest: path.join(__dirname, '../public/uploads/foto_publicacion'),
+                limits: { fileSize: 30000000 },  //maximo 30Mb
+                fileFilter: (req: Request, file: any, cb: any) => {
+                    const imgVal = /jpeg|jpg|png/;
+                    const mimetype = imgVal.test(file.mimetype);   //Comprueba que el archivo que llega tiene la extension correcta
+                    const extName = imgVal.test(path.extname(file.originalname));
+
+                    if (mimetype && extName) {
+                        return cb(null, true);
+                    }
+                    cb("EXT_FAILED");
+                }
+            }).single('foto_publicacion'); //Nombre del input que sube la imagen
+
+            upload(req, res, (error: string) => {
+                if (error) {
+                    if (error == "EXT_FAILED") return res.status(500).send({ status: "EXT_FAILED" });
+                    return res.status(500).send({ status: "LIMIT_SIZE" });
+                }
+
+                publicacionModelo.findByIdAndUpdate(idPublicacion, { foto: idPublicacion + '.jpg' }, { new: true }, (error: string, publicacion: any) => {
                     if (error) return res.status(500).send({ status: 'failed' });
 
                     if (!publicacion) return res.send(404).send({ status: '404' });
-
                 });
-                return res.status(200).send({ status: 'success' });
 
+                return res.status(200).send({ status: 'success' });
             });
 
         } catch (error:any) {
             if (error) return res.status(500).send({ status: 'failed' });
         }
-    } */
-
-    public async subirImagen(req: Request, res: Response) {
-        try {
-            //Await
-        } catch (error: any) {
-
-        }
     }
 
     public async recuperarImagen(req: Request, res: Response) {
         try {
-            //Await
-        } catch (error: any) {
+            const idPublicacion = req.params.idPublicacion;
+            var foto_publicacion = './src/public/uploads/foto_publicacion/' + idPublicacion + '.jpg';
 
+            fs.stat(foto_publicacion, (error: string, exists: any) => {
+                if (exists) return res.status(200).sendFile(path.resolve(foto_publicacion));
+                return res.status(500).send({ status: 'failed' });
+            });
+
+
+        } catch (error) {
+            return res.status(500).send({ status: 'failed' });
         }
     }
 
@@ -140,25 +194,25 @@ class PublicacionControlador {
             const idUsuario: String = req.params.idUsuario;
             const idPublicacion: String = req.params.idPublicacion;
 
-            //Se duplica    SOLUCIONAR
             await usuarioModelo.find({ _id: idUsuario }, (error: string, usuario: any) => {
 
                 if (error) return res.status(500).send({ status: 'failed' });
 
                 if (!usuario) return res.status(404).send({ status: '404' });
 
-                publicacionModelo.findByIdAndUpdate(idPublicacion, { $push: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
+            });
 
-                    if (error) return res.status(500).send({ status: 'failed' });
+            //Se duplica    SOLUCIONAR
+            await publicacionModelo.findByIdAndUpdate(idPublicacion, { $push: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
 
-                    if (!publicacion) return res.status(404).send({ status: '404' });
+                if (error) return res.status(500).send({ status: 'failed' });
 
-                });
-
-                return res.status(200).send({ status: 'success' });
-
+                if (!publicacion) return res.status(404).send({ status: '404' });
 
             });
+
+            return res.status(200).send({ status: 'success' });
+
         } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
         }
@@ -177,17 +231,18 @@ class PublicacionControlador {
 
                 if (!usuario) return res.status(404).send({ status: '404' });
 
-                publicacionModelo.findByIdAndUpdate(idPublicacion, { $pull: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
+            });
 
-                    if (error) return res.status(500).send({ status: 'failed' });
+            await publicacionModelo.findByIdAndUpdate(idPublicacion, { $pull: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
 
-                    if (!publicacion) return res.status(404).send({ status: '404' });
+                if (error) return res.status(500).send({ status: 'failed' });
 
-                });
-
-                return res.status(200).send({ status: 'success' });
+                if (!publicacion) return res.status(404).send({ status: '404' });
 
             });
+
+            return res.status(200).send({ status: 'success' });
+
         } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
         }

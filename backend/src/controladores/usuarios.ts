@@ -96,11 +96,11 @@ class UsuarioControlador {
     }
 
     //error,usuarioBorrado -> typescript
-    /* public async eliminar(req: Request, res: Response): Promise<any> {
+    public async eliminar(req: Request, res: Response): Promise<any> {
         try {
             const idUsuario: String = req.params.idUsuario;
 
-            await usuarioModelo.findByIdAndDelete(idUsuario, (error: any, usuarioBorrado: any): Object => {
+            await usuarioModelo.findByIdAndDelete(idUsuario, {}, (error: any, usuarioBorrado: any) => {
                 if (error) return res.status(500).send({ status: 'failed' });
 
                 if (!usuarioBorrado) return res.status(404).send({ status: '404' });
@@ -111,7 +111,7 @@ class UsuarioControlador {
         } catch (error) {
             return res.status(500).send({ status: 'failed' });
         }
-    }  */
+    }
 
     public async subirImagen(req: Request, res: Response) {
 
@@ -164,7 +164,7 @@ class UsuarioControlador {
         try {
             const idUsuario = req.params.id;
             var foto_perfil = './src/public/uploads/foto_perfil/' + idUsuario + '.jpg';
-            
+
             fs.stat(foto_perfil, (error: string, exists: any) => {
                 if (exists) return res.status(200).sendFile(path.resolve(foto_perfil));
                 return res.status(500).send({ status: 'failed' });
@@ -189,17 +189,18 @@ class UsuarioControlador {
 
                 if (!usuarioModificado) return res.status(404).send({ status: '404' });
 
-                //Al usuario idUsuarioaSeguir se le añadira en el array seguidores el usuario idUsuario
-                usuarioModelo.findByIdAndUpdate(idUsuarioaSeguir, { $push: { 'seguidores': idUsuario } }, { new: true }, (error: string, usuarioModificado: any) => {
-                    if (error) return res.status(500).send({ status: 'failed' });
+            });
 
-                    if (!usuarioModificado) return res.status(404).send({ status: '404' });
+            //Al usuario idUsuarioaSeguir se le añadira en el array seguidores el usuario idUsuario
+            await usuarioModelo.findByIdAndUpdate(idUsuarioaSeguir, { $push: { 'seguidores': idUsuario } }, { new: true }, (error: string, usuarioModificado: any) => {
 
-                });
+                if (error) return res.status(500).send({ status: 'failed' });
 
-                return res.status(500).send({ status: 'success' });
+                if (!usuarioModificado) return res.status(404).send({ status: '404' });
 
             });
+
+            return res.status(500).send({ status: 'success' });
 
 
         } catch (error) {
@@ -219,16 +220,18 @@ class UsuarioControlador {
 
                 if (!usuarioModificado) return res.send(404).send({ status: '404' });
 
-                //Al usuario idUsuarionoSeguir se le quitara del array seguidores el usuario idUsuario
-                usuarioModelo.findByIdAndUpdate(idUsuarionoSeguir, { $pull: { 'seguidores': idUsuario } }, { new: true }, (error: string, usuarioModificado) => {
-                    if (error) return res.status(500).send({ status: 'failed' });
+            });
 
-                    if (!usuarioModificado) return res.send(404).send({ status: '404' });
 
-                });
-                return res.status(200).send({ status: 'success' });
+            //Al usuario idUsuarionoSeguir se le quitara del array seguidores el usuario idUsuario
+            await usuarioModelo.findByIdAndUpdate(idUsuarionoSeguir, { $pull: { 'seguidores': idUsuario } }, { new: true }, (error: string, usuarioModificado) => {
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!usuarioModificado) return res.send(404).send({ status: '404' });
 
             });
+
+            return res.status(200).send({ status: 'success' });
 
         } catch (error) {
             return res.status(500).send({ status: 'failed' });

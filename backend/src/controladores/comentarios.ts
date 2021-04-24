@@ -46,47 +46,51 @@ class ComentarioControlador {
 
                 if (!comentario) return res.status(404).send({ status: '404' });
 
-                addComentario.save((error, comentario) => {
-                    if (error) return res.status(500).send({ status: 'failed' });
-
-                    if (!comentario) return res.status(404).send({ status: '404' });
-                });
-
-                return res.status(200).send({ status: 'success' });
             });
+
+
+            await addComentario.save((error, comentario) => {
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!comentario) return res.status(404).send({ status: '404' });
+            });
+
+            return res.status(200).send({ status: 'success' });
 
         } catch (error) {
             if (error) return res.status(500).send({ status: 'failed' });
         }
     }
 
-    //error,usuarioBorrado -> typescript
-    /* public async eliminar(req: Request, res: Response) {
+
+    public async eliminar(req: Request, res: Response) {
         try {
 
             const idPublicacion: string = req.params.idPublicacion;
             const idComentario: string = req.params.idComentario;
 
-            await comentarioModelo.findByIdAndRemove(idComentario, (error: any, comentarioBorrado: any) => {
-                if(error) return res.status(500).send({ status: 'failed' });
+            await comentarioModelo.findByIdAndRemove(idComentario, {}, (error: any, comentarioBorrado: any) => {
+                if (error) return res.status(500).send({ status: 'failed' });
 
-                if(!comentarioBorrado) return res.status(404).send({ status: '404' });
+                if (!comentarioBorrado) return res.status(404).send({ status: '404' });
 
-                publicacionModelo.findByIdAndUpdate(idPublicacion, { $pull: { 'comentarios': idComentario } }, { new: true }, (error: String, comentario: any) => {
-                    if(error) return res.status(500).send({ status: 'failed' });
-
-                    if(!comentario) return res.status(404).send({ status: '404' });
-                }
-
-                return res.status(200).send({ status: 'success' });
             });
+
+            await publicacionModelo.findByIdAndUpdate(idPublicacion, { $pull: { 'comentarios': idComentario } }, { new: true }, (error: String, comentario: any) => {
+                
+                if (error) return res.status(500).send({ status: 'failed' });
+
+                if (!comentario) return res.status(404).send({ status: '404' });
+            });
+
+            return res.status(200).send({ status: 'success' });
 
 
         } catch (error) {
             return res.status(500).send({ status: 'failed' });
-        } 
+        }
     }
-    */
+
 }
 
 export const comentarioControlador = new ComentarioControlador();
