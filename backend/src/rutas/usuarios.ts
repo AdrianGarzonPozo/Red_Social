@@ -8,20 +8,20 @@ const router: Router = Router();
 
 //Rutas
 router.get('/usuarios', usuarioControlador.recuperarTodos); //Recuperar todos
-router.get('/usuarios/:id', usuarioControlador.recuperarUno); //Recuperar 1
+router.get('/usuarios/:idUsuario', usuarioControlador.recuperarUno); //Recuperar 1
 router.post('/usuarios', usuarioControlador.añadirNuevo); //Añadir
-router.put('/usuarios/:id', usuarioControlador.modificar); //Editar
+router.put('/usuarios/:idUsuario', usuarioControlador.modificar); //Editar
 //router.delete('/usuarios/:id', usuarioControlador.eliminar); //Borrar 
 
 //Guardar la foto del perfil del usuario con multer
 
 
-router.post('/subirImagen/:id', usuarioControlador.subirImagen);
-router.get('/recuperarImagen/:id', usuarioControlador.recuperarImagen);
+router.post('/subirImagen/:idUsuario', usuarioControlador.subirImagen);
+router.get('/recuperarImagen/:idUsuario', usuarioControlador.recuperarImagen);
 
 
-router.put('/seguir/:id/:seguir', usuarioControlador.seguir); //Seguir a otro usuario
-router.put('/dejarSeguir/:id/:noseguir', usuarioControlador.dejarSeguir); //Seguir a otro usuario
+router.put('/seguir/:idUsuario/:idSeguir', usuarioControlador.seguir); //Seguir a otro usuario
+router.put('/dejarSeguir/:idUsuario/:idNoSeguir', usuarioControlador.dejarSeguir); //Seguir a otro usuario
 
 
 module.exports = router;

@@ -21,7 +21,7 @@ class UsuarioControlador {
     public async recuperarUno(req: Request, res: Response): Promise<any> {
 
         try {
-            const idUsuario: String = req.params.id;
+            const idUsuario: String = req.params.idUsuario;
 
             await usuarioModelo.findById(idUsuario, (error: any, usuarioRecuperado: Usuario) => {
                 if (error) return res.status(500).send({ status: 'failed' });
@@ -78,7 +78,7 @@ class UsuarioControlador {
 
     public async modificar(req: Request, res: Response): Promise<any> {
         try {
-            const idUsuario: String = req.params.id;
+            const idUsuario: String = req.params.idUsuario;
             const update: Usuario = req.body;
 
             await usuarioModelo.findByIdAndUpdate(idUsuario, update, { new: true }, (error: string, usuarioModificado): Object => {
@@ -98,7 +98,7 @@ class UsuarioControlador {
     //error,usuarioBorrado -> typescript
     /* public async eliminar(req: Request, res: Response): Promise<any> {
         try {
-            const idUsuario: String = req.params.id;
+            const idUsuario: String = req.params.idUsuario;
 
             await usuarioModelo.findByIdAndDelete(idUsuario, (error: any, usuarioBorrado: any): Object => {
                 if (error) return res.status(500).send({ status: 'failed' });
@@ -116,7 +116,7 @@ class UsuarioControlador {
     public async subirImagen(req: Request, res: Response) {
 
         try {
-            const idUsuario: String = req.params.id;
+            const idUsuario: String = req.params.idUsuario;
 
             const storage = multer.diskStorage({
                 destination: path.join(__dirname, '../public/uploads/foto_perfil'),
@@ -178,8 +178,8 @@ class UsuarioControlador {
 
     public async seguir(req: Request, res: Response) {
         try {
-            const idUsuario: String = req.params.id;
-            const idUsuarioaSeguir: String = req.params.seguir;
+            const idUsuario: String = req.params.idUsuario;
+            const idUsuarioaSeguir: String = req.params.idSeguir;
 
             //Se duplica el ID en el array siguiendo del idUsuario
             //Al usuario idUsuario se le añadira en el array siguiendo el usuario idUsuarioaSeguir
@@ -209,8 +209,8 @@ class UsuarioControlador {
 
     public async dejarSeguir(req: Request, res: Response) {
         try {
-            const idUsuario: String = req.params.id;
-            const idUsuarionoSeguir: String = req.params.noseguir;
+            const idUsuario: String = req.params.idUsuario;
+            const idUsuarionoSeguir: String = req.params.idNoSeguir;
 
             //Al usuario idUsuario se le quitara del array siguiendo el usuario idUsuarioaSeguir
             await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'siguiendo': idUsuarionoSeguir } }, { new: true }, (error: string, usuarioModificado) => {

@@ -15,7 +15,7 @@ class PublicacionControlador {
 
     public async recuperarUna(req: Request, res: Response): Promise<any> {
         try {
-            const idPublicacion: String = req.params.id;
+            const idPublicacion: String = req.params.idPublicacion;
 
             publicacionModelo.findById(idPublicacion, (error: string, publicacion: Publicacion) => {
                 if (error) return res.status(500).send({ status: 'failed' });
@@ -72,7 +72,7 @@ class PublicacionControlador {
     public async modificar(req: Request, res: Response): Promise<any> {
         try {
 
-            const idPublicacion: String = req.params.id;
+            const idPublicacion: String = req.params.idPublicacion;
             const textoNuevo: String = req.body.texto_foto;
 
             await publicacionModelo.findByIdAndUpdate(idPublicacion, { texto_foto: textoNuevo }, { new: true }, (error: string, publicacion: any) => {
@@ -94,7 +94,7 @@ class PublicacionControlador {
         try {
 
             const idUsuario: String = req.params.idUsuario;
-            const idPublicacion: String = req.params.id;
+            const idPublicacion: String = req.params.idPublicacion;
 
             await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'publicaciones': idPublicacion } }, { new: true }, (error: String, usuario: any) => {
 
@@ -138,7 +138,7 @@ class PublicacionControlador {
 
         try {
             const idUsuario: String = req.params.idUsuario;
-            const idPublicacion: String = req.params.id;
+            const idPublicacion: String = req.params.idPublicacion;
 
             //Se duplica    SOLUCIONAR
             await usuarioModelo.find({ _id: idUsuario }, (error: string, usuario: any) => {
@@ -169,7 +169,7 @@ class PublicacionControlador {
 
         try {
             const idUsuario: String = req.params.idUsuario;
-            const idPublicacion: String = req.params.id;
+            const idPublicacion: String = req.params.idPublicacion;
 
             await usuarioModelo.find({ _id: idUsuario }, (error: String, usuario: any) => {
 
