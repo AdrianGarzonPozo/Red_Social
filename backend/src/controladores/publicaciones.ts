@@ -133,6 +133,7 @@ class PublicacionControlador {
             const storage = multer.diskStorage({
                 destination: path.join(__dirname, '../public/uploads/foto_publicacion'),
                 filename: (req: Request, file: any, cb: any) => {
+                    console.log("1");
                     cb(null, idPublicacion + '.jpg');
                 }
             });
@@ -144,7 +145,7 @@ class PublicacionControlador {
                     const imgVal = /jpeg|jpg|png/;
                     const mimetype = imgVal.test(file.mimetype);   //Comprueba que el archivo que llega tiene la extension correcta
                     const extName = imgVal.test(path.extname(file.originalname));
-
+                    console.log("2");
                     if (mimetype && extName) {
                         return cb(null, true);
                     }
@@ -162,8 +163,10 @@ class PublicacionControlador {
                     if (error) return res.status(500).send({ status: 'failed' });
 
                     if (!publicacion) return res.send(404).send({ status: '404' });
+                    console.log("3");
                 });
 
+                console.log("4");
                 return res.status(200).send({ status: 'success' });
             });
 
