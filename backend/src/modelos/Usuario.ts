@@ -1,4 +1,5 @@
-import mongoose, {Schema, model} from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
+const bcrypt = require('bcryptjs');
 
 export interface Usuario extends mongoose.Document {
     nombre: String,
@@ -12,9 +13,9 @@ export interface Usuario extends mongoose.Document {
     siguiendo: [String],
     seguidores: [String],
     publicaciones: [String]
-} 
+}
 
-var UsuarioSchema = new Schema({
+const UsuarioSchema = new Schema({
     nombre: String,
     biografia: String,
     contrasena: String,

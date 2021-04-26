@@ -1,27 +1,25 @@
 import { Router } from 'express';
 import { usuarioControlador } from './../controladores/usuarios';
-const multer = require('multer');
-const path = require('path');
+import { verifToken } from '../middlewares/autJwt';
 
 const router: Router = Router();
 
 
 //Rutas
 router.get('/usuarios', usuarioControlador.recuperarTodos); //Recuperar todos
-router.get('/usuarios/:idUsuario', usuarioControlador.recuperarUno); //Recuperar 1
-router.post('/usuarios', usuarioControlador.añadirNuevo); //Añadir
-router.put('/usuarios/:idUsuario', usuarioControlador.modificar); //Editar
-router.delete('/usuarios/:idUsuario', usuarioControlador.eliminar); //Borrar 
+router.get('/usuarios/:idUsuario', /* verifToken, */ usuarioControlador.recuperarUno); //Recuperar 1
+router.put('/usuarios/:idUsuario', /* verifToken, */ usuarioControlador.modificar); //Editar
+router.delete('/usuarios/:idUsuario', /* verifToken, */ usuarioControlador.eliminar); //Borrar 
 
 //Guardar la foto del perfil del usuario con multer
 
 
-router.post('/subirImagen/:idUsuario', usuarioControlador.subirImagen);
-router.get('/recuperarImagen/:idUsuario', usuarioControlador.recuperarImagen);
+router.post('/subirImagen/:idUsuario', /* verifToken, */ usuarioControlador.subirImagen);
+router.get('/recuperarImagen/:idUsuario', /* verifToken, */ usuarioControlador.recuperarImagen);
 
 
-router.put('/seguir/:idUsuario/:idSeguir', usuarioControlador.seguir); //Seguir a otro usuario
-router.put('/dejarSeguir/:idUsuario/:idNoSeguir', usuarioControlador.dejarSeguir); //Seguir a otro usuario
+router.put('/seguir/:idUsuario/:idSeguir', /* verifToken, */ usuarioControlador.seguir); //Seguir a otro usuario
+router.put('/dejarSeguir/:idUsuario/:idNoSeguir', /* verifToken, */ usuarioControlador.dejarSeguir); //Seguir a otro usuario
 
 
 module.exports = router;

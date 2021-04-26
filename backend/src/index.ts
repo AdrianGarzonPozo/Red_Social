@@ -18,14 +18,14 @@ app.use(bodyParser.json()); //Cualquier peticion que llegue la convierte a json
 const usuarios_rutas = require('./rutas/usuarios');
 const publicaciones_rutas = require('./rutas/publicaciones');
 const comentarios_rutas = require('./rutas/comentarios');
-/* var login_logout = require('./rutas/login_logout'); */
+const autentificacion_rutas = require('./rutas/autentificacion');
 
 
 //Todas estas rutas pasaran primero por /api
 app.use('/api', usuarios_rutas);
 app.use('/api', publicaciones_rutas);
 app.use('/api', comentarios_rutas);
-/* app.use('/', login_logout); */
+app.use('/api', autentificacion_rutas);
 
 //cors, para cuando hagamos peticiones desde angular no de problemas ya que estara en el proyecto en produccion desde otro dominio
 // Configurar cabeceras

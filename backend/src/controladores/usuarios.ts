@@ -36,46 +36,6 @@ class UsuarioControlador {
         }
     }
 
-    public async añadirNuevo(req: Request, res: Response): Promise<any> {
-        try {
-
-            var params: Usuario = req.body;
-            var newUsuario: any = params;
-
-            var fecha: Date = new Date();
-            let dia: string = ("0" + fecha.getDate()).slice(-2);
-            let mes: string = ("0" + (fecha.getMonth() + 1)).slice(-2);
-            let año: number = fecha.getFullYear();
-
-
-            //Primer se salta esta funcion, consultar
-            bcrypt.hash(params.contrasena, 10, (error: any, palabraEncriptada: string) => {
-                if (error) return res.status(500).send({ status: 'failed' });
-
-                newUsuario.contrasena = palabraEncriptada;
-                newUsuario.tipo_cuenta = true;
-                newUsuario.telefono_p2p = 0;
-                newUsuario.creacion = (año + "-" + mes + "-" + dia);
-                newUsuario.siguiendo = [];
-                newUsuario.seguidores = [];
-                newUsuario.publicaciones = [];
-
-                new usuarioModelo(newUsuario).save((error: any, usuarioGuardado: Usuario): Object => {
-                    if (error) return res.status(500).send({ status: 'failed' });
-
-                    if (!usuarioGuardado) return res.send(404).send({ status: '404' });
-
-                    return res.status(200).send({ status: 'success' });
-
-                });
-
-            });
-
-        } catch (error) {
-            return res.status(500).send({ status: 'failed' });
-        }
-    }
-
     public async modificar(req: Request, res: Response): Promise<any> {
         try {
             const idUsuario: String = req.params.idUsuario;
