@@ -1,10 +1,10 @@
 //Importar
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Application } from 'express';
 import bodyParser from 'body-parser';
 import "./database";
 
 //Inicializaciones
-const app = express();
+const app: Application = express();
 
 //Configuraciones
 app.set('port', process.env.PORT || 3700);
@@ -26,6 +26,7 @@ app.use('/api', usuarios_rutas);
 app.use('/api', publicaciones_rutas);
 app.use('/api', comentarios_rutas);
 app.use('/api', autentificacion_rutas);
+
 
 //cors, para cuando hagamos peticiones desde angular no de problemas ya que estara en el proyecto en produccion desde otro dominio
 // Configurar cabeceras

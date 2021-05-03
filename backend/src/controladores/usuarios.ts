@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
 import usuarioModelo, { Usuario } from '../modelos/Usuario';
 
-var fs = require('fs');
-var path = require('path');
-const multer = require('multer');
-const bcrypt = require('bcryptjs');
+import fs from 'fs';
+import path from 'path';
+import multer from 'multer';
 
 
 class UsuarioControlador {
@@ -73,25 +72,28 @@ class UsuarioControlador {
         }
     }
 
-    public async subirImagen(req: Request, res: Response) {
+    public async subirImagen(req: Request, res: Response): Promise<any> {
 
         try {
             const idUsuario: String = req.params.idUsuario;
+            console.log(idUsuario);
 
-            const storage = multer.diskStorage({
+            var storage = multer.diskStorage({
                 destination: path.join(__dirname, '../public/uploads/foto_perfil'),
-                filename: (req: Request, file: any, cb: any) => {
+                filename: (req: Request, file: Express.Multer.File, cb: any) => {
+                    console.log("eyy");
                     cb(null, idUsuario + '.jpg');
                 }
             });
-            const upload = multer({
+            var upload = multer({
                 storage: storage,
                 dest: path.join(__dirname, '../public/uploads/foto_perfil'),
                 limits: { fileSize: 30000000 },  //maximo 30Mb
-                fileFilter: (req: Request, file: any, cb: any) => {
+                fileFilter: (req: Request, file: Express.Multer.File, cb: any) => {
                     const imgVal = /jpeg|jpg|png/;
                     const mimetype = imgVal.test(file.mimetype);   //Comprueba que el archivo que llega tiene la extension correcta
                     const extName = imgVal.test(path.extname(file.originalname));
+                    console.log("hola");
 
                     if (mimetype && extName) {
                         return cb(null, true);
@@ -105,6 +107,7 @@ class UsuarioControlador {
                     if (error == "EXT_FAILED") return res.status(500).send({ status: "EXT_FAILED" });
                     return res.status(500).send({ status: "LIMIT_SIZE" });
                 }
+                console.log(req.file);
 
                 usuarioModelo.findByIdAndUpdate(idUsuario, { foto_perfil: idUsuario + '.jpg' }, { new: true }, (error: string, usuario: any) => {
                     if (error) return res.status(500).send({ status: 'failed' });
@@ -122,12 +125,12 @@ class UsuarioControlador {
 
     public async recuperarImagen(req: Request, res: Response) {
         try {
-            const idUsuario = req.params.id;
+            const idUsuario = req.params.idUsuario;
             var foto_perfil = './src/public/uploads/foto_perfil/' + idUsuario + '.jpg';
 
-            fs.stat(foto_perfil, (error: string, exists: any) => {
+            fs.stat(foto_perfil, (error: any, exists: any) => {
                 if (exists) return res.status(200).sendFile(path.resolve(foto_perfil));
-                return res.status(500).send({ status: 'failed' });
+                return res.status(404).send({ status: '404' });
             });
 
 
@@ -198,4 +201,6 @@ class UsuarioControlador {
         }
     }
 }
+
+
 export const usuarioControlador = new UsuarioControlador();
