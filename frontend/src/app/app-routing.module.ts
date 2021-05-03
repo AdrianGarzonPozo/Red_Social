@@ -1,10 +1,13 @@
-import { NgModule } from '@angular/core';
+import { HomeComponent } from './componentes/home/home.component';
+
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Route } from '@angular/compiler/src/core';
 
-const routes: Routes = [];
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: '**', component: HomeComponent }    //Ruta 404
+];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const appRoutingProviders: any[] = [];
+export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(appRoutes);
