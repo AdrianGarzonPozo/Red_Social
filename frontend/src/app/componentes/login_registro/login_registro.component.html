@@ -1,0 +1,40 @@
+<div class="centrar">
+    <h1 class="logo">FindMe</h1>
+    <div class="contenedor" id="contenedor">
+        <div class="form-contenedor regis-contenedor">
+            <form #formRegistro="ngForm" (ngSubmit)="onRegistro(formRegistro)">
+                <h1>Create una Cuenta</h1>
+                <p class="inc-usu">Nombre no disponible</p>
+                <input type="text" placeholder="Nombre" name="nombre" ngModel required/>
+                <p class="inc-correo">Correo no disponible</p>
+                <input type="email" placeholder="Correo Electrónico" name="correo" ngModel required/>
+                <p class="inc-ctr">Contraseñas incorrectas</p>
+                <input type="password" placeholder="Contraseña" name="contrasena" ngModel required id="ctr"/>
+                <input type="password" placeholder="Repetir Contraseña" name="rep_contrasena" ngModel required id="rep_ctr"/>
+                <input type="submit" value="REGÍSTRATE" [disabled]="!formRegistro.form.valid">
+            </form>
+        </div>
+        <div class="form-contenedor login-contenedor">
+            <form #formLogin="ngForm" (ngSubmit)="onLogin(formLogin)">
+                <h1>Iniciar Sesión</h1>
+                <p class="incorrecto">Usuario o contraseña incorrecta</p>
+                <input type="text" placeholder="Nombre de Usuario" name="nombre" ngModel required/>
+                <input type="password" placeholder="Contraseña" name="contrasena" ngModel required/>
+                <a href="#">¿Has olvidado tu contraseña?</a>
+                <input type="submit" value="INICIAR SESIÓN" [disabled]="!formLogin.form.valid">
+            </form>
+        </div>
+        <div class="overlay-contenedor">
+            <div class="overlay">
+                <div class="overlay-panel overlay-izq">
+                    <img src="../../../assets/img/login.svg" alt="">
+                    <button class="ghost" id="login">Inicia Sesión</button>
+                </div>
+                <div class="overlay-panel overlay-der">
+                    <img src="../../../assets/img/login2.svg" alt="">
+                    <button class="ghost" id="regis">Regístrate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
