@@ -2,6 +2,7 @@
 import express, { Request, Response, Application } from 'express';
 import bodyParser from 'body-parser';
 import "./database";
+const cors = require('cors');
 
 //Inicializaciones
 const app: Application = express();
@@ -12,6 +13,15 @@ app.set('port', process.env.PORT || 3700);
 //middleware
 app.use(bodyParser.urlencoded({ extended: false })); //Activar body-parser
 app.use(bodyParser.json()); //Cualquier peticion que llegue la convierte a json
+/* app.use(cors); */
+// Configurar cabeceras y cors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 
 //Cargar archivos de rutas
@@ -26,17 +36,6 @@ app.use('/api', usuarios_rutas);
 app.use('/api', publicaciones_rutas);
 app.use('/api', comentarios_rutas);
 app.use('/api', autentificacion_rutas);
-
-
-//cors, para cuando hagamos peticiones desde angular no de problemas ya que estara en el proyecto en produccion desde otro dominio
-// Configurar cabeceras
-app.use((req: Request, res: Response, next) => {
-    res.header('Access-Control-Allow-Origin', '*'); //En * pondriamos el dominio permitido
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
 
 
 //Encender servidor

@@ -15,33 +15,32 @@ class AutentificacionControlador {
 
         const ctr = await bcrypt.hash(contrasena, salt);
 
-        var fecha: Date = new Date();
-        let dia: string = ("0" + fecha.getDate()).slice(-2);
-        let mes: string = ("0" + (fecha.getMonth() + 1)).slice(-2);
-        let año: number = fecha.getFullYear();
 
-        const newUsuario = new usuarioModelo({
+        const newUsuario = {
             nombre,
             correo,
-            contrasena: ctr
+            contrasena: ctr,
+            tipo_cuenta: true,
+            telefono_p2p: 0
+        };
+
+
+        usuarioModelo.create(newUsuario, (err, usuario) => {
+            if (err != null) {
+                if (err.message.includes("Error, expected nombre to be unique.")) return res.status(500).send({status:"Error usuario"});
+                if (err.message.includes("Error, expected correo to be unique.")) return res.status(500).send({status:"Error correo"});
+            }
+            const token = jwt.sign({ id: usuario._id }, config.SECRET, {
+                expiresIn: 86400    // en segundos -> 24horas
+            });
+
+            res.status(200).send({ token, usuario });
         });
-
-        newUsuario.tipo_cuenta = true;
-        newUsuario.telefono_p2p = 0;
-        newUsuario.creacion = (año + "-" + mes + "-" + dia);
-
-        const usuarioGuardado = await newUsuario.save();
-
-        const token = jwt.sign({ id: usuarioGuardado._id }, config.SECRET, {
-            expiresIn: 86400    // en segundos -> 24horas
-        });
-
-        res.status(200).send({ token });
 
     }
 
     public async login(req: Request, res: Response) {
-
+        
         const usuario = await usuarioModelo.findOne({ nombre: req.body.nombre });
 
         if (!usuario) return res.status(404).send({ status: 'Error Usuario' });
@@ -53,8 +52,8 @@ class AutentificacionControlador {
         const token = jwt.sign({ id: usuario._id }, config.SECRET, {
             expiresIn: 86400
         });
- 
-        res.send({ token: token });
+
+        res.status(200).send({ token, usuario: usuario });
 
     }
 
