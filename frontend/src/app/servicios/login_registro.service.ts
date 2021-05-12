@@ -46,6 +46,7 @@ export class Login_registroService {
     this.token = '';
     localStorage.removeItem("x-access-token");
     localStorage.removeItem("usuario");
+    location.href = "/";
   }
 
   private saveTokenUsuario(token: string, usuario:Object): void {
@@ -54,13 +55,5 @@ export class Login_registroService {
     localStorage.setItem("usuario", JSON.stringify(usuario));
     this.usuario = usuario;
   }
-
-  /* private getTokenUsuario(): Object {
-    if (!this.token && !this.usuario) {
-      this.token = localStorage.getItem("x-access-token");
-      this.usuario = localStorage.getItem("usuario");
-    }
-    return {this.token, this.usuario};
-  } */
 
 }

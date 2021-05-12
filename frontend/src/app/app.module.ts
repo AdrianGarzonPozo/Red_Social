@@ -1,3 +1,4 @@
+import { Login_registroService } from './servicios/login_registro.service';
 import { Login_registroComponent } from './componentes/login_registro/login_registro.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { appRoutingProviders, routing } from './app-routing.module';
@@ -26,7 +27,8 @@ import { MatIconModule  } from '@angular/material/icon';
     MatIconModule
   ],
   providers: [
-    appRoutingProviders
+    appRoutingProviders,
+    Login_registroService
   ],
   bootstrap: [AppComponent]
 })
