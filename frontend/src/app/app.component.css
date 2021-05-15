@@ -44,6 +44,7 @@ html {
 .container>.breadcrumbs .social {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0 10%;
     align-items: center;
     height: 100%;
@@ -57,12 +58,27 @@ html {
 }
 
 .container>.breadcrumbs .social li {
-    width: auto;
-    text-align: center;
+    width: 100%;
 }
 
-.container>.breadcrumbs .social span {
-    font-weight: 700;
+.box-foto{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.box-foto span{
+    margin-right: 2%;
+}
+
+.foto_perfil{
+    width: 45px;
+    height: 45px;
+    background-color: grey;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
 }
 
 
@@ -146,6 +162,7 @@ ul li a img {
 .tl-menu-pc ul li a img {
     width: 50%;
 }
+
 
 /* media query (depends on total height of menu) */
 @media screen and (max-width: 41.5rem) {

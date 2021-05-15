@@ -2,6 +2,7 @@ import { UsuarioService } from './../../servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-perfil',
@@ -50,6 +51,10 @@ export class PerfilComponent implements OnInit {
         this.biografia = this.localUsuario.biografia;
         this.seguidores = this.localUsuario.seguidores.length;
         this.siguiendo = this.localUsuario.siguiendo.length;
+        
+        if(this.localUsuario.foto_perfil && this.localUsuario.foto_perfil!=''){
+          $(".foto").css("background-image","url(http://localhost:3700/public/uploads/foto_perfil/"+this.localUsuario.foto_perfil+")");
+        }
 
         this.perfil = true;
       }
@@ -66,6 +71,10 @@ export class PerfilComponent implements OnInit {
         this.seguidoresArr = data.seguidores;
         this.seguidores = data.seguidores.length;
         this.siguiendo = data.siguiendo.length;
+
+        if(data.foto_perfil && data.foto_perfil!=''){
+          $(".foto").css("background-image","url(http://localhost:3700/public/uploads/foto_perfil/"+data.foto_perfil+")");
+        }
 
         if (this.seguidoresArr.indexOf(this.localUsuario._id) == -1) {
           this.seguirOno = true;

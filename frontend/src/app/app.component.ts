@@ -39,20 +39,11 @@ export class AppComponent implements OnInit {
     this.id=localUsuario._id;
 
     if(localUsuario.foto_perfil!=''){
-      console.log(this.id);
-      this.foto_perfil=`../../../../backend/src/public/uploads/foto_perfil/${this.id}.jpg`
+      this.foto_perfil=`http://localhost:3700/public/uploads/foto_perfil/${this.id}.jpg`;
+      $(".foto_perfil").css("background-image",'url('+this.foto_perfil+')');
+    }else{
+      this.foto_perfil=`http://localhost:3700/public/uploads/foto_perfil/none.jpg`;
     }
-
-    this._usuarioServicio.recuperarImagenPerfil(this.id).subscribe(
-      res=>{
-        console.log("bien");
-        console.log(res);
-      },
-      error=>{
-        console.log("mal");
-        console.log(error);
-      }
-    )
 
   }
 

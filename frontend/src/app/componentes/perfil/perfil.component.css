@@ -11,19 +11,22 @@
 .imagen {
     position: relative;
     width: 30%;
-    margin: 0 10% 0 5%;
+    margin: 0 6% 0 5%;
 }
 
-.imagen img {
-    position: absolute;top: 0;
+.imagen div {
+    position: absolute;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     margin: 0 auto;
-    width: 70%;
-    height: 70%;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background-color: grey;
+    background-position: center;
+    background-size: cover;
 }
 .datos {
     width: 50%;
@@ -69,4 +72,12 @@
 button{
     padding: 3%;
     width: 100%; 
+}
+
+@media screen and (max-width: 41.5rem) {
+    .imagen {
+        position: relative;
+        width: 30%;
+        margin: 0 12% 0 5%;
+    }
 }
