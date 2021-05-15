@@ -1,0 +1,30 @@
+<div class="contenedor">
+  <div class="perfil-datos">
+    <div class="imagen">
+      <img src="" alt="">
+    </div>
+    <div class="datos">
+      <div class="nombre-ajustes">
+        <h1>{{nombre}}</h1>
+        <i *ngIf="perfil" class="fas fa-cog"></i>
+      </div>
+      <div class="estadisticas">
+        <p><span>{{seguidores}}</span> Seguidores</p>
+        <p><span>{{siguiendo}}</span> Seguidos</p>
+      </div>
+      <div class="bio">
+        <p>{{biografia}}</p>
+      </div>
+      <div *ngIf="!perfil">
+        <button *ngIf="seguirOno">Seguir</button>
+        <button *ngIf="!seguirOno">Dejar de seguir</button>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="perfil-publicaciones">
+
+  </div>
+</div>

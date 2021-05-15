@@ -1,0 +1,72 @@
+.contenedor {
+    padding-top: 2%;
+}
+
+.perfil-datos {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.imagen {
+    position: relative;
+    width: 30%;
+    margin: 0 10% 0 5%;
+}
+
+.imagen img {
+    position: absolute;top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: grey;
+}
+.datos {
+    width: 50%;
+}
+
+.nombre-ajustes, .estadisticas{
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    margin-bottom: 2%;
+}
+
+.nombre-ajustes h1{
+    font-size: 3rem;
+    margin-right: 20%;
+}
+.nombre-ajustes i{
+    font-size: 2.4rem;
+}
+
+.estadisticas{
+    text-align: left;
+    font-size: 1.6rem;
+}
+
+.estadisticas p{
+    width: 50%;
+}
+
+.estadisticas span{
+    font-weight: bold;
+} 
+
+.bio{
+    max-width: 80%;
+    hyphens: auto;
+    word-wrap: break-word;
+    word-break: break-word;
+    margin-bottom: 10%;
+    font-size: 1.5rem;
+}
+
+button{
+    padding: 3%;
+    width: 100%; 
+}

@@ -11,7 +11,7 @@ export class Login_registroService {
   url: string;
   authSubject: BehaviorSubject<any>;
   private token: string;
-  private usuario:Object;
+  private usuario: Object;
 
   constructor(
     public _http: HttpClient
@@ -49,11 +49,10 @@ export class Login_registroService {
     location.href = "/";
   }
 
-  private saveTokenUsuario(token: string, usuario:Object): void {
+  private saveTokenUsuario(token: string, usuario: Object): void {
     localStorage.setItem("x-access-token", token);
     this.token = token;
     localStorage.setItem("usuario", JSON.stringify(usuario));
     this.usuario = usuario;
   }
-
 }

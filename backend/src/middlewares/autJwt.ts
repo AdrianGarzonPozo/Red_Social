@@ -5,8 +5,14 @@ import Usuario from '../modelos/Usuario';
 
 export const verifToken = async (req: Request, res: Response, next: any) => {
     try {
-        const token = req.headers["x-access-token"];
+        console.log(req.headers.authorization);
 
+        if(!req.headers.authorization){
+            console.log("entra");
+            return res.status(403).send({status:'cabecera'});
+        }
+
+        const token = req.headers.authorization.split(' ')[1];
         console.log(token);
 
         if (!token) return res.status(403).send({ status: 'No token' });

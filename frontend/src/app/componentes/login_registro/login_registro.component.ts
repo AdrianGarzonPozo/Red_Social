@@ -62,8 +62,7 @@ export class Login_registroComponent implements OnInit {
       delete form.value.rep_contrasena;
       this._loginRegistroServicio.register(form.value).subscribe(
         res => {
-          console.log("bien", res);
-          alert("bien");
+          location.href = "/navegacion";
         },
         error => {
           if (error.error.status == "Error usuario") {
