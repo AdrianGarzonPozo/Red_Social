@@ -129,7 +129,7 @@ class UsuarioControlador {
             var foto_perfil = './src/public/uploads/foto_perfil/' + idUsuario + '.jpg';
 
             fs.stat(foto_perfil, (error: any, exists: any) => {
-                if (exists) return res.status(200).sendFile(path.resolve(foto_perfil));
+                if (exists) return res.status(200).send({ status: idUsuario + '.jpg' });
                 return res.status(404).send({ status: '404' });
             });
 
@@ -163,7 +163,7 @@ class UsuarioControlador {
 
             });
 
-            return res.status(500).send({ status: 'success' });
+            return res.status(200).send({ status: 'success' });
 
 
         } catch (error) {

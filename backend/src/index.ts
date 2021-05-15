@@ -2,7 +2,7 @@
 import express, { Request, Response, Application } from 'express';
 import bodyParser from 'body-parser';
 import "./database";
-const cors = require('cors');
+const path = require('path');
 
 //Inicializaciones
 const app: Application = express();
@@ -37,6 +37,7 @@ app.use('/api', publicaciones_rutas);
 app.use('/api', comentarios_rutas);
 app.use('/api', autentificacion_rutas);
 
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //Encender servidor
 app.listen(app.get('port'), () => {
