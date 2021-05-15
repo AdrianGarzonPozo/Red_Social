@@ -31,7 +31,11 @@ export class UsuarioService {
   }
 
   seguir(idUsuario: string, idUsuarioAseguir: string): Observable<any> {
-    return;
+    return this._http.put<JwtResponseI>(`${this.url}seguir/${idUsuario}/${idUsuarioAseguir}`, "", );
+  }
+
+  dejarSeguir(idUsuario: string, idUsuarioAseguir: string): Observable<any> {
+    return this._http.put<JwtResponseI>(`${this.url}dejarSeguir/${idUsuario}/${idUsuarioAseguir}`, "", );
   }
 
   recuperarImagenPerfil(idUsuario: string): Observable<any> {

@@ -16,8 +16,8 @@
         <p>{{biografia}}</p>
       </div>
       <div *ngIf="!perfil">
-        <button *ngIf="seguirOno">Seguir</button>
-        <button *ngIf="!seguirOno">Dejar de seguir</button>
+        <button *ngIf="seguirOno" (click)="onSeguir()">Seguir</button>
+        <button *ngIf="!seguirOno" (click)="dejarSeguir()">Dejar de seguir</button>
       </div>
     </div>
   </div>

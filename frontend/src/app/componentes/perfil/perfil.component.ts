@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PerfilComponent implements OnInit {
 
+  IdusuarioSeguir: string = '';
   usuario: Object = '';
   nombre: string = '';
   biografia: string = '';
@@ -17,6 +18,7 @@ export class PerfilComponent implements OnInit {
   seguidores: number = 0;
   siguiendo: number = 0;
   perfil: boolean;
+  localUsuario = JSON.parse(localStorage.getItem("usuario"));
 
   seguirOno: boolean;
 
@@ -31,35 +33,81 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
 
+    this.usuarioPerfil();
+
+  }
+
+  usuarioPerfil() {
     this._route.params.subscribe((params: Params) => {
       if (params.id) {
         this.perfil = false;
-        this._usuarioService.recuperarUsuario(params.id).subscribe(data => {
-          this.nombre = data.nombre;
-          this.biografia = data.biografia;
-          this.seguidoresArr = data.seguidores;
-          this.seguidores = data.seguidores.length;
-          this.seguidores = data.siguiendo.length;
-        }, ((error:HttpErrorResponse) => {
-          /* this._router.navigate(['/home']); */
-        }));
+        this.IdusuarioSeguir = params.id;
 
-        if (this.seguidoresArr.indexOf(JSON.parse(localStorage.getItem("usuario"))._id) == -1) {
-          this.seguirOno = true;
-        }
-
+        this.perfilUsuario(this.IdusuarioSeguir);
 
       } else {
-        const localUsuario = JSON.parse(localStorage.getItem("usuario"));
-        this.nombre = localUsuario.nombre;
-        this.biografia = localUsuario.biografia;
-        this.seguidores = localUsuario.seguidores.length;
-        this.seguidores = localUsuario.siguiendo.length;
+        this.nombre = this.localUsuario.nombre;
+        this.biografia = this.localUsuario.biografia;
+        this.seguidores = this.localUsuario.seguidores.length;
+        this.siguiendo = this.localUsuario.siguiendo.length;
 
         this.perfil = true;
       }
     });
+  }
 
+  perfilUsuario(idUsuarioBuscar: string) {
+    this._usuarioService.recuperarUsuario(idUsuarioBuscar).subscribe(data => {
+      if (data.nombre == this.localUsuario.nombre) {
+        localStorage.setItem("usuario", JSON.stringify(data));
+      } else {
+        this.nombre = data.nombre;
+        this.biografia = data.biografia;
+        this.seguidoresArr = data.seguidores;
+        this.seguidores = data.seguidores.length;
+        this.siguiendo = data.siguiendo.length;
+
+        if (this.seguidoresArr.indexOf(this.localUsuario._id) == -1) {
+          this.seguirOno = true;
+        } else {
+          this.seguirOno = false;
+        }
+      }
+
+    }, ((error: HttpErrorResponse) => {
+      this._router.navigate(['/home']);
+    }));
+  }
+
+
+  onSeguir() {
+    this._usuarioService.seguir(this.localUsuario._id, this.IdusuarioSeguir).subscribe(
+      data => {
+
+        this.perfilUsuario(this.IdusuarioSeguir);
+
+        this.perfilUsuario(this.localUsuario._id);
+
+      },
+      error => {
+        console.log("Error al seguir a este usuario");
+      }
+    );
+  }
+
+  dejarSeguir() {
+    this._usuarioService.dejarSeguir(this.localUsuario._id, this.IdusuarioSeguir).subscribe(
+      data => {
+
+        this.perfilUsuario(this.IdusuarioSeguir);
+
+        this.perfilUsuario(this.localUsuario._id);
+
+      },
+      error => {
+        console.log("Error al dejar de seguir a este usuario");
+      }
+    );
   }
 
 }
