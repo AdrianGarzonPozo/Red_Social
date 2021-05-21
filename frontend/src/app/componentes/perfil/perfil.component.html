@@ -6,7 +6,7 @@
     <div class="datos">
       <div class="nombre-ajustes">
         <h1>{{nombre}}</h1>
-        <i *ngIf="perfil" class="fas fa-cog"></i>
+        <i *ngIf="perfil" class="fas fa-cog" [routerLink]="['/ajustes']"></i>
       </div>
       <div class="estadisticas">
         <p><span>{{seguidores}}</span> Seguidores</p>
@@ -15,7 +15,7 @@
       <div class="bio">
         <p>{{biografia}}</p>
       </div>
-      <div *ngIf="!perfil">
+      <div *ngIf="!perfil" class="seguir">
         <button *ngIf="seguirOno" (click)="onSeguir()">Seguir</button>
         <button *ngIf="!seguirOno" (click)="dejarSeguir()">Dejar de seguir</button>
       </div>

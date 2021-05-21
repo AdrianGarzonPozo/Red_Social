@@ -50,7 +50,7 @@ class AutentificacionControlador {
         if (!contrasena) return res.status(404).send({ status: 'Error Contraseña' });
 
         const token = jwt.sign({ id: usuario._id }, config.SECRET, {
-            expiresIn: 86400
+            expiresIn: 18000
         });
 
         res.status(200).send({ token, usuario: usuario });

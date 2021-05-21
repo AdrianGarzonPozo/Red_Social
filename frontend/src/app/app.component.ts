@@ -10,9 +10,7 @@ import { Login_registroService } from "./servicios/login_registro.service";
 })
 export class AppComponent implements OnInit {
   title: string = 'frontend';
-  nombre: string = '';
-  id: string = '';
-  foto_perfil='';
+  localUsuario=JSON.parse(localStorage.getItem("usuario"));
 
   constructor(
     private _usuarioServicio: UsuarioService,
@@ -34,15 +32,11 @@ export class AppComponent implements OnInit {
       }
     }
 
-    const localUsuario=JSON.parse(localStorage.getItem("usuario"));
-    this.nombre=localUsuario.nombre;
-    this.id=localUsuario._id;
-
-    if(localUsuario.foto_perfil!=''){
-      this.foto_perfil=`http://localhost:3700/public/uploads/foto_perfil/${this.id}.jpg`;
-      $(".foto_perfil").css("background-image",'url('+this.foto_perfil+')');
-    }else{
-      this.foto_perfil=`http://localhost:3700/public/uploads/foto_perfil/none.jpg`;
+    if(this.localUsuario && this.localUsuario.foto_perfil!=''){
+      this.localUsuario.foto_perfil=`http://localhost:3700/public/uploads/foto_perfil/${this.localUsuario._id}.jpg`;
+      $(".foto_perfil").css("background-image",'url('+this.localUsuario.foto_perfil+')');
+    }else if(this.localUsuario){
+      this.localUsuario.foto_perfil=`http://localhost:3700/public/uploads/foto_perfil/none.jpg`;
     }
 
   }

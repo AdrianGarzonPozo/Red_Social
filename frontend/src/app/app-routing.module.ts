@@ -6,12 +6,14 @@ import { ModuleWithProviders, NgModule} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
+import { AjustesComponent } from './componentes/ajustes/ajustes.component';
 
 const appRoutes: Routes = [
   { path: '', component: Login_registroComponent},
   { path: 'home', component: HomeComponent },
   { path: 'perfil', component: PerfilComponent },
   { path: 'perfil/:id', component: PerfilComponent },
+  { path: 'ajustes', component: AjustesComponent },
   { path: '**', component: HomeComponent }    //Ruta 404
 ];
 

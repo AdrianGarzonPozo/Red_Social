@@ -31,7 +31,8 @@ export class Login_registroService {
       );
   }
 
-  login(usuario: UsuarioI): Observable<JwtResponseI> {
+  login(usuario): Observable<JwtResponseI> {
+    console.log(usuario);
     return this._http.post<JwtResponseI>(`${this.url}login`,
       usuario).pipe(tap(
         (res: JwtResponseI) => {

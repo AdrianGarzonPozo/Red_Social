@@ -42,11 +42,12 @@ export class Login_registroComponent implements OnInit {
   }
 
   onLogin(form): void {
-    this._loginRegistroServicio.login(form.value).subscribe(
+    this._loginRegistroServicio.login(this.usuario).subscribe(
       res => {
         location.href = "/navegacion";
       },
       error => {
+        alert("mal");
         form.reset();
         $(".incorrecto").show();
       }
@@ -76,7 +77,6 @@ export class Login_registroComponent implements OnInit {
           } else {
             $(".inc-correo").hide();
           }
-          console.log("mal", error);
         }
       );
     }else{

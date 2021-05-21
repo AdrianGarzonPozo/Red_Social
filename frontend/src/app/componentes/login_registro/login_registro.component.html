@@ -18,8 +18,8 @@
             <form #formLogin="ngForm" (ngSubmit)="onLogin(formLogin)">
                 <h1>Iniciar Sesión</h1>
                 <p class="incorrecto">Usuario o contraseña incorrecta</p>
-                <input type="text" placeholder="Nombre de Usuario" name="nombre" ngModel required/>
-                <input type="password" placeholder="Contraseña" name="contrasena" ngModel required/>
+                <input type="text" placeholder="Nombre de Usuario" name="nombre" [(ngModel)]="usuario.nombre" required/>
+                <input type="password" placeholder="Contraseña" name="contrasena" [(ngModel)]="usuario.contrasena"  required/>
                 <a href="#">¿Has olvidado tu contraseña?</a>
                 <input type="submit" value="INICIAR SESIÓN" [disabled]="!formLogin.form.valid">
             </form>

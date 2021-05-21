@@ -25,9 +25,21 @@ export class UsuarioService {
     this.url = "http://localhost:3700/api/";
     this.authSubject = new BehaviorSubject(false);
   }
-
+  
   recuperarUsuario(idUsuario: string): Observable<any> {
     return this._http.get<JwtResponseI>(`${this.url}usuarios/${idUsuario}`);
+  }
+
+  editar(usuario):Observable<any>{
+    let params=JSON.stringify(usuario);
+    let headers=new HttpHeaders().set('Content-type','application/json');
+    return this._http.put<JwtResponseI>(`${this.url}usuarios/${usuario._id}`, params, {headers:headers});
+  }
+
+  editarContrasena(usuario, ctr):Observable<any>{
+    let params=JSON.stringify(ctr);
+    let headers=new HttpHeaders().set('Content-type','application/json');
+    return this._http.put<JwtResponseI>(`${this.url}usuarios/${usuario._id}`, params, {headers:headers});
   }
 
   seguir(idUsuario: string, idUsuarioAseguir: string): Observable<any> {
@@ -40,6 +52,12 @@ export class UsuarioService {
 
   recuperarImagenPerfil(idUsuario: string): Observable<any> {
     return this._http.get<JwtResponseI>(`${this.url}recuperarImagen/${idUsuario}`);
+  }
+
+  subirImagen(usuario,foto):Observable<any>{
+    const fd = new FormData();
+    fd.append('foto_perfil', foto);
+    return this._http.post<JwtResponseI>(`${this.url}subirImagen/${usuario._id}`, fd);
   }
 
 }

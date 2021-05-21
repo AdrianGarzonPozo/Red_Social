@@ -99,7 +99,6 @@ export class PerfilComponent implements OnInit {
 
       },
       error => {
-        console.log("Error al seguir a este usuario");
       }
     );
   }
@@ -114,7 +113,6 @@ export class PerfilComponent implements OnInit {
 
       },
       error => {
-        console.log("Error al dejar de seguir a este usuario");
       }
     );
   }

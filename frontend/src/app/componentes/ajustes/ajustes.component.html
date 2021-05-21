@@ -1,0 +1,83 @@
+<div class="cont-ajustes">
+  <div class="cont-flex">
+    <div class="camb-foto">
+      <form #fotoForm="ngForm" (ngSubmit)="onSubmitFoto(fotoForm)">
+        <h2>Cambiar Foto de Perfil</h2>
+        <p *ngIf="error" class="repetido">{{tError}}</p>
+        <div class="foto-perfil-ajustes"></div>
+        <div class="file-drop-area">
+          <span class="fake-btn">Elige foto de perfil</span>
+          <span class="file-msg">o arrástrala hasta aquí</span>
+          <input class="file-input" type="file" multiple name="foto" (change)="onPhotoSelected($event)" required>
+        </div>
+        <div class="guardar">
+          <input type="submit" value="Guardar" [disabled]="!fotoForm.form.valid">
+        </div>
+      </form>
+    </div>
+    <div class="camb-datos">
+      <form #usuarioForm="ngForm" (ngSubmit)="onSubmit(usuarioForm)">
+        <h2>Cambiar Tu Información</h2>
+        <p *ngIf="repetido" class="repetido">Nombre o correo en uso.</p>
+        <div>
+          <div class="input">
+            <div class="group">
+              <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="localUsuario.nombre" required>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>Nombre</label>
+            </div>
+
+            <div class="group">
+              <input type="text" name="biografia" #biografia="ngModel" [(ngModel)]="localUsuario.biografia" required>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>Biografía</label>
+            </div>
+
+            <div class="group">
+              <input type="text" name="email" #email="ngModel" [(ngModel)]="localUsuario.correo" required>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>Email</label>
+            </div>
+
+            <div class="guardar">
+              <input type="submit" value="Guardar">
+            </div>
+          </div>
+        </div>
+      </form>
+     <!--  <form #contrasenaForm="ngForm" (ngSubmit)="onSubmitCtr()">
+        <h2>Cambiar Tu Contraseña</h2>
+        <p *ngIf="repetido_ctr" class="repetido">Las contraseas no coinciden</p>
+        <div>
+          <div class="input">
+            <div class="group">
+              <input type="password" name="password" #password="ngModel" [(ngModel)]="ctr" required>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>Contraseña nueva</label>
+            </div>
+
+            <div class="group">
+              <input type="password" name="password" #password="ngModel" [(ngModel)]="ctr_rep" required>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>Repetir Contraseña</label>
+            </div>
+
+            <div class="guardar">
+              <input type="submit" value="Guardar">
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="camb-ctr">
+
+      </div> -->
+      <div class="cerrar-sesion">
+        <button (click)="cerrarSesion()">Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>

@@ -76,12 +76,10 @@ class UsuarioControlador {
 
         try {
             const idUsuario: String = req.params.idUsuario;
-            console.log(idUsuario);
 
             var storage = multer.diskStorage({
                 destination: path.join(__dirname, '../public/uploads/foto_perfil'),
                 filename: (req: Request, file: Express.Multer.File, cb: any) => {
-                    console.log("eyy");
                     cb(null, idUsuario + '.jpg');
                 }
             });
@@ -93,7 +91,6 @@ class UsuarioControlador {
                     const imgVal = /jpeg|jpg|png/;
                     const mimetype = imgVal.test(file.mimetype);   //Comprueba que el archivo que llega tiene la extension correcta
                     const extName = imgVal.test(path.extname(file.originalname));
-                    console.log("hola");
 
                     if (mimetype && extName) {
                         return cb(null, true);
@@ -107,7 +104,6 @@ class UsuarioControlador {
                     if (error == "EXT_FAILED") return res.status(500).send({ status: "EXT_FAILED" });
                     return res.status(500).send({ status: "LIMIT_SIZE" });
                 }
-                console.log(req.file);
 
                 usuarioModelo.findByIdAndUpdate(idUsuario, { foto_perfil: idUsuario + '.jpg' }, { new: true }, (error: string, usuario: any) => {
                     if (error) return res.status(500).send({ status: 'failed' });

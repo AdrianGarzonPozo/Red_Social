@@ -2,7 +2,7 @@
     <div class="breadcrumbs">
         <ul class="social">
             <li>FindMe</li>
-            <li class="box-foto"><span>{{nombre}}</span> <div class="foto_perfil"></div>
+            <li class="box-foto"><span *ngIf="localUsuario">{{localUsuario.nombre}}</span> <div class="foto_perfil"></div>
         </ul>
     </div>
   

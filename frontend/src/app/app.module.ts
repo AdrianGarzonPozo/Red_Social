@@ -1,3 +1,4 @@
+import { AjustesComponent } from './componentes/ajustes/ajustes.component';
 import { TokenInterceptorService } from './servicios/token-interceptor.service';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { Login_registroService } from './servicios/login_registro.service';
@@ -8,7 +9,7 @@ import { AppComponent } from './app.component';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule  } from '@angular/material/icon';
@@ -18,12 +19,14 @@ import { MatIconModule  } from '@angular/material/icon';
     AppComponent,
     HomeComponent,
     Login_registroComponent,
-    PerfilComponent
+    PerfilComponent,
+    AjustesComponent
   ],
   imports: [
     BrowserModule,
     routing,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatIconModule
