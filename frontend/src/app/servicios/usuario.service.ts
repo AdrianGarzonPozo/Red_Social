@@ -30,6 +30,11 @@ export class UsuarioService {
     return this._http.get<JwtResponseI>(`${this.url}usuarios/${idUsuario}`);
   }
 
+  buscarUsuarios(idUsuario: string, buscar: string): Observable<any> {
+    const params={nombre:buscar};
+    return this._http.post<JwtResponseI>(`${this.url}usuarios/buscar/${idUsuario}`,  params);
+  }
+
   editar(usuario):Observable<any>{
     let params=JSON.stringify(usuario);
     let headers=new HttpHeaders().set('Content-type','application/json');

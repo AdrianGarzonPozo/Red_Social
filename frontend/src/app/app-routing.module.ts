@@ -1,3 +1,4 @@
+import { BuscadorComponent } from './componentes/buscador/buscador.component';
 import { Login_registroComponent } from './componentes/login_registro/login_registro.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './componentes/home/home.component';
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
   { path: 'perfil', component: PerfilComponent },
   { path: 'perfil/:id', component: PerfilComponent },
   { path: 'ajustes', component: AjustesComponent },
+  { path: 'buscador', component: BuscadorComponent },
   { path: '**', component: HomeComponent }    //Ruta 404
 ];
 

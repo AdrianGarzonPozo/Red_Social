@@ -1,3 +1,4 @@
+import { BuscadorComponent } from './componentes/buscador/buscador.component';
 import { AjustesComponent } from './componentes/ajustes/ajustes.component';
 import { TokenInterceptorService } from './servicios/token-interceptor.service';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
@@ -20,7 +21,8 @@ import { MatIconModule  } from '@angular/material/icon';
     HomeComponent,
     Login_registroComponent,
     PerfilComponent,
-    AjustesComponent
+    AjustesComponent,
+    BuscadorComponent
   ],
   imports: [
     BrowserModule,

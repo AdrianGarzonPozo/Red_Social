@@ -1,0 +1,16 @@
+<div class="">
+  <form class="form-buscador">
+    <input type="text" id="search-bar" placeholder="Escribe el usuario a buscar" #buscador
+      (keyup.enter)="onEnter(buscador.value)">
+  </form>
+  <div class="contenedor-buscador">
+    <div *ngFor="let usuario of usuarios">
+      <div (click)="onClick($event,usuario._id)" class="usuario">
+        <div class="imagen">
+          <div class="foto"></div>
+        </div>
+        <p>{{usuario.nombre}}</p>
+      </div>
+    </div>
+  </div>
+</div>

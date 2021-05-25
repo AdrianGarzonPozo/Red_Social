@@ -35,6 +35,20 @@ class UsuarioControlador {
         }
     }
 
+    public async buscarUsuarios(req: Request, res: Response): Promise<any> {
+
+        try {
+            const idUsuario: String = req.params.id;
+
+            const usuarios: Usuario[] = await usuarioModelo.find({nombre: req.body.nombre});
+            return res.status(200).send(usuarios && usuarios.length > 0 ? usuarios : []);
+
+        } catch (error) {
+            console.log("ass");
+            return res.status(500).send({ status: 'failed' });
+        }
+    }
+
     public async modificar(req: Request, res: Response): Promise<any> {
         try {
             const idUsuario: String = req.params.idUsuario;

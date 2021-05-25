@@ -8,6 +8,7 @@ const router: Router = Router();
 //Rutas
 router.get('/usuarios', verifToken, usuarioControlador.recuperarTodos); //Recuperar todos
 router.get('/usuarios/:idUsuario', verifToken, usuarioControlador.recuperarUno); //Recuperar 1
+router.post('/usuarios/buscar/:id', /* verifToken, */ usuarioControlador.buscarUsuarios); //Buscar Usuarios
 router.put('/usuarios/:idUsuario', /* verifToken, */ usuarioControlador.modificar); //Editar
 router.delete('/usuarios/:idUsuario', /* verifToken, */ usuarioControlador.eliminar); //Borrar 
 
