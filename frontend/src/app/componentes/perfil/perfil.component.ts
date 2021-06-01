@@ -1,3 +1,4 @@
+import { PublicacionService } from './../../servicios/publicacion.service';
 import { UsuarioService } from './../../servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -12,6 +13,7 @@ import * as $ from 'jquery';
 export class PerfilComponent implements OnInit {
 
   IdusuarioSeguir: string = '';
+  id: string = "";
   usuario: Object = '';
   nombre: string = '';
   biografia: string = '';
@@ -19,13 +21,17 @@ export class PerfilComponent implements OnInit {
   seguidores: number = 0;
   siguiendo: number = 0;
   perfil: boolean;
+  publicaciones: any;
   localUsuario = JSON.parse(localStorage.getItem("usuario"));
+  publicacionesMostrar: any = [];
+  imagenesMostrar: any = [];
 
   seguirOno: boolean;
 
   constructor(
     private _route: ActivatedRoute,
     private _usuarioService: UsuarioService,
+    private _publicacionService: PublicacionService,
     private _router: Router
   ) {
     this.perfil = false;
@@ -49,14 +55,23 @@ export class PerfilComponent implements OnInit {
       } else {
         this.nombre = this.localUsuario.nombre;
         this.biografia = this.localUsuario.biografia;
-        this.seguidores = this.localUsuario.seguidores.length;
-        this.siguiendo = this.localUsuario.siguiendo.length;
-        
-        if(this.localUsuario.foto_perfil && this.localUsuario.foto_perfil!=''){
-          $(".foto").css("background-image","url(http://localhost:3700/public/uploads/foto_perfil/"+this.localUsuario.foto_perfil+")");
+        const arrSeguidores = new Set(this.localUsuario.seguidores);
+        this.seguidores = [...arrSeguidores].length;
+        const arrSiguiendo = new Set(this.localUsuario.siguiendo);
+        this.siguiendo = [...arrSiguiendo].length;
+        const arrPubli = new Set(this.localUsuario.publicaciones);
+        this.publicaciones = [...arrPubli];
+        this.id = this.localUsuario._id;
+
+        if (this.localUsuario.foto_perfil && this.localUsuario.foto_perfil != '') {
+          $(".foto").css("background-image", "url(http://localhost:3700/public/uploads/foto_perfil/" + this.localUsuario.foto_perfil + ")");
         }
 
         this.perfil = true;
+
+        if (this.publicaciones.length > 0) {
+          this.mostrarPublicaciones(this.publicaciones);
+        }
       }
     });
   }
@@ -68,12 +83,14 @@ export class PerfilComponent implements OnInit {
       } else {
         this.nombre = data.nombre;
         this.biografia = data.biografia;
+        this.id = data._id;
         this.seguidoresArr = data.seguidores;
         this.seguidores = data.seguidores.length;
         this.siguiendo = data.siguiendo.length;
+        this.publicaciones = data.publicaciones;
 
-        if(data.foto_perfil && data.foto_perfil!=''){
-          $(".foto").css("background-image","url(http://localhost:3700/public/uploads/foto_perfil/"+data.foto_perfil+")");
+        if (data.foto_perfil && data.foto_perfil != '') {
+          $(".foto").css("background-image", "url(http://localhost:3700/public/uploads/foto_perfil/" + data.foto_perfil + ")");
         }
 
         if (this.seguidoresArr.indexOf(this.localUsuario._id) == -1) {
@@ -115,6 +132,53 @@ export class PerfilComponent implements OnInit {
       error => {
       }
     );
+  }
+
+  mostrarPublicaciones(publicaciones) {
+    publicaciones.forEach(element => {
+      this._publicacionService.recuperarPublicacion(element).subscribe(
+        data => {
+          this.publicacionesMostrar.push(data.publicacion);
+          this.imagenesMostrar.push("http://localhost:3700/public/uploads/foto_publicacion/" + data.publicacion.foto);
+        },
+        error => {
+        }
+      );
+    });
+  }
+
+  like(idPublicacion: string) {
+    this._publicacionService.like(this.localUsuario._id, idPublicacion).subscribe(
+      data => {
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  disLike(idPublicacion: string) {
+    this._publicacionService.disLike(this.localUsuario._id, idPublicacion).subscribe(
+      data => {
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  eliminar(idPublicacion: string) {
+    const idUsuario=$(".nombre-ajustes").attr("id");
+
+    this._publicacionService.eliminarPublicacion(idUsuario, idPublicacion).subscribe(
+      data => {
+        location.reload();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
   }
 
 }

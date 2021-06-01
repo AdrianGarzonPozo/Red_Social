@@ -1,23 +1,23 @@
 <div class="container">
-    <div class="breadcrumbs">
+    <!-- <div class="breadcrumbs">
         <ul class="social">
             <li>FindMe</li>
             <li class="box-foto"><span *ngIf="localUsuario">{{localUsuario.nombre}}</span> <div class="foto_perfil"></div>
         </ul>
-    </div>
+    </div> -->
   
     <ul class="tl-menu">
         <li><a [routerLink]="['/home']"><img src="../assets/img/home.svg" alt="home"></a></li>
-        <li><a [routerLink]="['/routePath']"><img src="../assets/img/compass.svg" alt=""></a></li>
-        <li><a [routerLink]="['/routePath']"><img src="../assets/img/add.svg" alt=""></a></li>
+        <li><a [routerLink]="['/buscador']"><img src="../assets/img/compass.svg" alt=""></a></li>
+        <li><a [routerLink]="['/subir']"><img src="../assets/img/add.svg" alt=""></a></li>
         <li><a [routerLink]="['/perfil']"><img src="../assets/img/user.svg" alt=""></a></li>
     </ul>
   
     <ul class="tl-menu-pc">
         <li><a [routerLink]="['/home']"></a></li>
         <li><a [routerLink]="['/home']"><img src="../assets/img/home.svg" alt="home"></a></li>
-        <li><a [routerLink]="['/routePath']"><img src="../assets/img/compass.svg" alt=""></a></li>
-        <li><a [routerLink]="['/routePath']"><img src="../assets/img/add.svg" alt=""></a></li>
+        <li><a [routerLink]="['/buscador']"><img src="../assets/img/compass.svg" alt=""></a></li>
+        <li><a [routerLink]="['/subir']"><img src="../assets/img/add.svg" alt=""></a></li>
         <li><a [routerLink]="['/perfil']"><img src="../assets/img/user.svg" alt=""></a></li>
         <li><a></a></li>
         <li><a (click)="logOut()"><img src="../assets/img/logout.svg" alt=""></a></li>

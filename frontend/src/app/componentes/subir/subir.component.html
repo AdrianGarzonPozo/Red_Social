@@ -1,0 +1,30 @@
+<div class="cont-ajustes">
+  <div class="cont-flex">
+    <div class="camb-foto">
+      <form #fotoForm="ngForm">
+        <h2>Foto de la publicacion</h2>
+        <p *ngIf="error" class="repetido">{{tError}}</p>
+        <div class="foto-perfil-ajustes"></div>
+        <div class="file-drop-area">
+          <span class="fake-btn">Elige la foto de la publicacion</span>
+          <span class="file-msg">o arrástrala hasta aquí</span>
+          <input class="file-input" type="file" multiple name="foto" (change)="onPhotoSelected($event)" required>
+        </div>
+      </form>
+    </div>
+    <div class="camb-datos">
+      <form #usuarioForm="ngForm" (ngSubmit)="onSubmit(usuarioForm)">
+        <div>
+          <div class="input">
+            <h3>Pie de foto</h3>
+            <textarea cols="50" rows="5" name="nombre" #nombre="ngModel" [(ngModel)]="texto" required></textarea>
+
+
+            <div class="guardar">
+              <input type="submit" value="Guardar">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

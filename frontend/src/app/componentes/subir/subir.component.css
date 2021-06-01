@@ -1,0 +1,168 @@
+.cont-ajustes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 5% 0;
+    height: auto;
+}
+
+.file-drop-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 450px;
+    max-width: 100%;
+    padding: 25px;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    transition: 0.2s;
+    background: linear-gradient(to right, #4568dc, #b06ab3);
+    color: #D7D7EF;
+}
+
+.file-drop-area .is-active {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.fake-btn {
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.file-msg {
+    font-size: small;
+    font-weight: 300;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.file-input:focus {
+    outline: none;
+}
+
+
+.input {
+    padding-top: 40px;
+}
+.input .group {
+    position: relative;
+    margin-bottom: 45px;
+}
+.input input {
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 300px;
+    border: none;
+    border-bottom: 1px solid #757575;
+}
+.input input:focus {
+    outline: none;
+}
+.input label {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+.input input:focus ~ label, .input input:valid ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: #5264ae;
+}
+.input .bar {
+    position: relative;
+    display: block;
+    width: 300px;
+}
+.input .bar:before, .input .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264ae;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+.input .bar:before {
+    left: 50%;
+}
+.input .bar:after {
+    right: 50%;
+}
+.input input:focus ~ .bar:before, .input input:focus ~ .bar:after {
+    width: 50%;
+}
+.input .highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+.input input:focus ~ .highlight {
+    -webkit-animation: inputHighlighter 0.3s ease;
+    -moz-animation: inputHighlighter 0.3s ease;
+    animation: inputHighlighter 0.3s ease;
+}
+@-webkit-keyframes inputHighlighter {
+    from {
+        background: #5264ae;
+   }
+    to {
+        width: 0;
+        background: transparent;
+   }
+}
+@-moz-keyframes inputHighlighter {
+    from {
+        background: #5264ae;
+   }
+    to {
+        width: 0;
+        background: transparent;
+   }
+}
+@keyframes inputHighlighter {
+    from {
+        background: #5264ae;
+   }
+    to {
+        width: 0;
+        background: transparent;
+   }
+}
+
+.repetido{
+    color: red;
+}

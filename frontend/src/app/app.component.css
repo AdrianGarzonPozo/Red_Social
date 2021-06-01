@@ -18,7 +18,8 @@ html {
 
 .main {
   width: 100%;
-  padding-top: 8rem;
+  /* padding-top: 8rem; */
+  padding-top: 3rem;
   max-width: 100rem;
   margin: 0 auto;
   margin-left: 15%;
@@ -151,7 +152,6 @@ ul li a img {
 @media screen and (max-width: 41.5rem) {
 
     .main{
-        padding: 0 15%;
         margin-left: 0;
     }
 

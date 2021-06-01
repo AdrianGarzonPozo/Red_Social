@@ -4,7 +4,7 @@
       <div class="foto"></div>
     </div>
     <div class="datos">
-      <div class="nombre-ajustes">
+      <div class="nombre-ajustes" data-id="{{id}}">
         <h1>{{nombre}}</h1>
         <i *ngIf="perfil" class="fas fa-cog" [routerLink]="['/ajustes']"></i>
       </div>
@@ -25,6 +25,28 @@
   <hr>
 
   <div class="perfil-publicaciones">
-
+    <!-- <div *ngFor="let publicacion of publicacionesMostrar">
+      <p>{{publicacion.texto_foto}}</p>
+      <img ng-src="http://localhost:3700/public/uploads/foto_publicacion/{{publicacion.foto}}"
+        alt="Foto de la publicacion" />
+    </div> -->
+    <section id="gallery">
+      <div class="container">
+        <div id="image-gallery">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image"
+              *ngFor="let publicacion of publicacionesMostrar; let i = index">
+              <div class="img-wrapper">
+                <img [src]="imagenesMostrar[i]" class="img-responsive">
+                <i *ngIf="perfil" class="fas fa-times eliminar_foto" (click)="eliminar(publicacion._id)"></i>
+                <i *ngIf="!publicacion.likes.includes(localUsuario._id)" class="fas fa-heart like" (click)="like(publicacion._id)"></i>
+                <i *ngIf="publicacion.likes.includes(localUsuario._id)" class="fas fa-heart dislike" (click)="disLike(publicacion._id)"></i>
+                <p class="pie_foto">{{publicacion.texto_foto}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

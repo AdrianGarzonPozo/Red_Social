@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { AjustesComponent } from './componentes/ajustes/ajustes.component';
+import { SubirComponent } from './componentes/subir/subir.component';
 
 const appRoutes: Routes = [
   { path: '', component: Login_registroComponent},
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
   { path: 'perfil/:id', component: PerfilComponent },
   { path: 'ajustes', component: AjustesComponent },
   { path: 'buscador', component: BuscadorComponent },
+  { path: 'subir', component: SubirComponent },
   { path: '**', component: HomeComponent }    //Ruta 404
 ];
 

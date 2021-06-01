@@ -1,3 +1,4 @@
+import { SubirComponent } from './componentes/subir/subir.component';
 import { BuscadorComponent } from './componentes/buscador/buscador.component';
 import { AjustesComponent } from './componentes/ajustes/ajustes.component';
 import { TokenInterceptorService } from './servicios/token-interceptor.service';
@@ -22,7 +23,8 @@ import { MatIconModule  } from '@angular/material/icon';
     Login_registroComponent,
     PerfilComponent,
     AjustesComponent,
-    BuscadorComponent
+    BuscadorComponent,
+    SubirComponent
   ],
   imports: [
     BrowserModule,

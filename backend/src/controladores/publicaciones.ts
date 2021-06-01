@@ -61,14 +61,16 @@ class PublicacionControlador {
             });
 
 
+            var pub:any='';
             await addPublicacion.save((error, publicacion) => {
                 if (error) return res.status(500).send({ status: 'failed' });
 
                 if (!publicacion) return res.status(404).send({ status: '404' });
+                pub=publicacion;
+                
+                return res.status(200).send({ status: pub._id });
             });
-
-
-            return res.status(200).send({ status: 'success' });
+            
 
         } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
@@ -204,6 +206,7 @@ class PublicacionControlador {
             });
 
             //Se duplica    SOLUCIONAR
+            console.log(idUsuario);
             await publicacionModelo.findByIdAndUpdate(idPublicacion, { $push: { 'likes': idUsuario } }, { new: true }, (error, publicacion) => {
 
                 if (error) return res.status(500).send({ status: 'failed' });
