@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import {servidor} from '../../keys';
 import * as $ from 'jquery';
 
 @Component({
@@ -26,7 +27,7 @@ export class BuscadorComponent implements OnInit {
         console.log(this.usuarios[0]);
         if(this.usuarios[0].foto_perfil && this.usuarios[0].foto_perfil!=''){
           console.log(this.usuarios[0].foto_perfil);
-          $(".foto").css("background-image","url(http://localhost:3700/public/uploads/foto_perfil/"+this.usuarios[0].foto_perfil+")");
+          $(".foto").css("background-image","url("+servidor.URI+"/public/uploads/foto_perfil/"+this.usuarios[0].foto_perfil+")");
         }
       },
       error => {

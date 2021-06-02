@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtResponseI } from './../interfaces/JwtResponse';
 import { Injectable } from '@angular/core';
+import {servidor} from '../keys';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class PublicacionService {
   constructor(
     public _http: HttpClient
   ) {
-    this.url = "http://localhost:3700/api/";
+    this.url = `${servidor.URI}/api/`;
     this.authSubject = new BehaviorSubject(false);
   }
 

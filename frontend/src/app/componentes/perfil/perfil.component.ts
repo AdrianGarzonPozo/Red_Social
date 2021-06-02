@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as $ from 'jquery';
+import {servidor} from '../../keys';
 
 @Component({
   selector: 'app-perfil',
@@ -64,7 +65,7 @@ export class PerfilComponent implements OnInit {
         this.id = this.localUsuario._id;
 
         if (this.localUsuario.foto_perfil && this.localUsuario.foto_perfil != '') {
-          $(".foto").css("background-image", "url(http://localhost:3700/public/uploads/foto_perfil/" + this.localUsuario.foto_perfil + ")");
+          $(".foto").css("background-image", "url("+servidor.URI+"/public/uploads/foto_perfil/" + this.localUsuario.foto_perfil + ")");
         }
 
         this.perfil = true;
@@ -90,7 +91,7 @@ export class PerfilComponent implements OnInit {
         this.publicaciones = data.publicaciones;
 
         if (data.foto_perfil && data.foto_perfil != '') {
-          $(".foto").css("background-image", "url(http://localhost:3700/public/uploads/foto_perfil/" + data.foto_perfil + ")");
+          $(".foto").css("background-image", "url("+servidor.URI+"/public/uploads/foto_perfil/" + data.foto_perfil + ")");
         }
 
         if (this.seguidoresArr.indexOf(this.localUsuario._id) == -1) {
@@ -139,7 +140,7 @@ export class PerfilComponent implements OnInit {
       this._publicacionService.recuperarPublicacion(element).subscribe(
         data => {
           this.publicacionesMostrar.push(data.publicacion);
-          this.imagenesMostrar.push("http://localhost:3700/public/uploads/foto_publicacion/" + data.publicacion.foto);
+          this.imagenesMostrar.push(`${servidor.URI}/public/uploads/foto_publicacion/` + data.publicacion.foto);
         },
         error => {
         }

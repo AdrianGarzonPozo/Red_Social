@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Usuario } from 'src/app/modelos/Usuario';
 import { Login_registroService } from 'src/app/servicios/login_registro.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import {servidor} from '../../keys';
 
 @Component({
   selector: 'app-subir',
@@ -13,7 +14,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 export class SubirComponent implements OnInit {
 
   localUsuario = JSON.parse(localStorage.getItem("usuario"));
-  url: string = "http://localhost:3700/api/usuarios/" + this.localUsuario._id;
+  url: string = `${servidor.URI}/api/usuarios/` + this.localUsuario._id;
   file: File;
   texto: string;
   idPublicacion: string;

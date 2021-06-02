@@ -2,6 +2,7 @@
 import express, { Request, Response, Application } from 'express';
 import bodyParser from 'body-parser';
 import "./database";
+import { servidor } from './keys';
 const path = require('path');
 
 //Inicializaciones
@@ -41,5 +42,5 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //Encender servidor
 app.listen(app.get('port'), () => {
-    console.log(`Servidor corriendo en http://localhost:3700`);
+    console.log(`Servidor corriendo en ${servidor.URI}`);
 });

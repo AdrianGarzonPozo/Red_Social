@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from './../../servicios/usuario.service';
 import { Router } from '@angular/router';
 import { Login_registroService } from "../../servicios/login_registro.service";
+import {servidor} from '../../keys';
 
 @Component({
   selector: 'app-ajustes',
@@ -12,7 +13,7 @@ import { Login_registroService } from "../../servicios/login_registro.service";
 export class AjustesComponent implements OnInit {
 
   localUsuario = JSON.parse(localStorage.getItem("usuario"));
-  url:string="http://localhost:3700/api/usuarios/"+this.localUsuario._id;
+  url:string=`${servidor.URI}/api/usuarios/`+this.localUsuario._id;
   repetido:boolean=false;
   repetido_ctr:boolean=false;
   ctr:string;

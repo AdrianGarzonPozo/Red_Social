@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, asapScheduler, pipe, of, interval, merge, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import {servidor} from '../keys';
 
 @Injectable()
 export class Login_registroService {
@@ -16,7 +17,7 @@ export class Login_registroService {
   constructor(
     public _http: HttpClient
   ) {
-    this.url = "http://localhost:3700/api/";
+    this.url = `${servidor.URI}/api/`;
     this.authSubject = new BehaviorSubject(false);
   }
 
@@ -33,6 +34,7 @@ export class Login_registroService {
 
   login(usuario): Observable<JwtResponseI> {
     console.log(usuario);
+    console.log(this.url);
     return this._http.post<JwtResponseI>(`${this.url}login`,
       usuario).pipe(tap(
         (res: JwtResponseI) => {
