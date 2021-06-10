@@ -47,7 +47,6 @@ export class Login_registroComponent implements OnInit {
         location.href = "/navegacion";
       },
       error => {
-        alert("mal");
         form.reset();
         $(".incorrecto").show();
       }

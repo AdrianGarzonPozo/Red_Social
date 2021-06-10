@@ -62,7 +62,6 @@ export class AjustesComponent implements OnInit {
           this.error=true;
         }
         console.log(error.error.status);
-        console.log("mal");
       }
     )
   }

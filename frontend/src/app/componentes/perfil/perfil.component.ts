@@ -86,7 +86,8 @@ export class PerfilComponent implements OnInit {
         this.seguidoresArr = data.seguidores;
         this.seguidores = data.seguidores.length / 2;
         this.siguiendo = data.siguiendo.length / 2;
-        this.publicaciones = data.publicaciones;
+        const arrPubli = new Set(data.publicaciones);
+        this.publicaciones = [...arrPubli];
 
         if (data.foto_perfil && data.foto_perfil != '') {
           $(".foto").css("background-image", "url(" + servidor.URI + "/public/uploads/foto_perfil/" + data.foto_perfil + ")");
@@ -96,6 +97,10 @@ export class PerfilComponent implements OnInit {
           this.seguirOno = true;
         } else {
           this.seguirOno = false;
+        }
+
+        if (this.publicaciones.length > 0) {
+          this.mostrarPublicaciones(this.publicaciones);
         }
       }
 
