@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as $ from 'jquery';
-import {servidor} from '../../keys';
+import { servidor } from '../../keys';
 
 @Component({
   selector: 'app-perfil',
@@ -56,16 +56,14 @@ export class PerfilComponent implements OnInit {
       } else {
         this.nombre = this.localUsuario.nombre;
         this.biografia = this.localUsuario.biografia;
-        const arrSeguidores = new Set(this.localUsuario.seguidores);
-        this.seguidores = [...arrSeguidores].length;
-        const arrSiguiendo = new Set(this.localUsuario.siguiendo);
-        this.siguiendo = [...arrSiguiendo].length;
+        this.seguidores = this.localUsuario.seguidores.length / 2;
+        this.siguiendo = this.localUsuario.siguiendo.length / 2;
         const arrPubli = new Set(this.localUsuario.publicaciones);
         this.publicaciones = [...arrPubli];
         this.id = this.localUsuario._id;
 
         if (this.localUsuario.foto_perfil && this.localUsuario.foto_perfil != '') {
-          $(".foto").css("background-image", "url("+servidor.URI+"/public/uploads/foto_perfil/" + this.localUsuario.foto_perfil + ")");
+          $(".foto").css("background-image", "url(" + servidor.URI + "/public/uploads/foto_perfil/" + this.localUsuario.foto_perfil + ")");
         }
 
         this.perfil = true;
@@ -86,12 +84,12 @@ export class PerfilComponent implements OnInit {
         this.biografia = data.biografia;
         this.id = data._id;
         this.seguidoresArr = data.seguidores;
-        this.seguidores = data.seguidores.length;
-        this.siguiendo = data.siguiendo.length;
+        this.seguidores = data.seguidores.length / 2;
+        this.siguiendo = data.siguiendo.length / 2;
         this.publicaciones = data.publicaciones;
 
         if (data.foto_perfil && data.foto_perfil != '') {
-          $(".foto").css("background-image", "url("+servidor.URI+"/public/uploads/foto_perfil/" + data.foto_perfil + ")");
+          $(".foto").css("background-image", "url(" + servidor.URI + "/public/uploads/foto_perfil/" + data.foto_perfil + ")");
         }
 
         if (this.seguidoresArr.indexOf(this.localUsuario._id) == -1) {
@@ -169,7 +167,7 @@ export class PerfilComponent implements OnInit {
   }
 
   eliminar(idPublicacion: string) {
-    const idUsuario=$(".nombre-ajustes").attr("id");
+    const idUsuario = $(".nombre-ajustes").attr("id");
 
     this._publicacionService.eliminarPublicacion(idUsuario, idPublicacion).subscribe(
       data => {

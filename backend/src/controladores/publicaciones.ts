@@ -7,11 +7,23 @@ var path = require('path');
 const multer = require('multer');
 
 class PublicacionControlador {
-    public async recuperarTodas(req: Request, res: Response): Promise<Publicacion[] | Object> {
+    public async recuperarTodas(req: Request, res: Response): Promise<any> {
         try {
-            const publicaciones: Publicacion[] = await publicacionModelo.find({});
+            const perPage: number = 2;
+            const page: any = req.params.page || 1;
+            await publicacionModelo
+                .find({})
+                .skip((perPage * page) - perPage)
+                .limit(perPage)
+                .exec((error:string, publicaciones)=>{
+                    if (error) return res.status(500).send({ status: 'failed' });
 
-            return res.status(200).send(publicaciones && publicaciones.length > 0 ? publicaciones : []);
+                    if (!publicaciones) return res.status(404).send({ status: '404' });
+
+                    return res.status(200).send(publicaciones && publicaciones.length > 0 ? publicaciones : []);
+                    
+                });
+
         } catch (error: any) {
             return res.status(500).send({ status: 'failed' });
         }
@@ -61,16 +73,16 @@ class PublicacionControlador {
             });
 
 
-            var pub:any='';
+            var pub: any = '';
             await addPublicacion.save((error, publicacion) => {
                 if (error) return res.status(500).send({ status: 'failed' });
 
                 if (!publicacion) return res.status(404).send({ status: '404' });
-                pub=publicacion;
-                
+                pub = publicacion;
+
                 return res.status(200).send({ status: pub._id });
             });
-            
+
 
         } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
@@ -97,13 +109,13 @@ class PublicacionControlador {
         }
     }
 
-    
+
     public async eliminar(req: Request, res: Response) {
         try {
 
             const idUsuario: String = req.params.idUsuario;
             const idPublicacion: String = req.params.idPublicacion;
-            
+
             await publicacionModelo.findByIdAndDelete(idPublicacion, {}, (error: any, publicacion: any) => {
 
                 if (error) return res.status(500).send({ status: 'failed' });
@@ -111,7 +123,7 @@ class PublicacionControlador {
                 if (!publicacion) return res.status(404).send({ status: '404' });
 
             });
-            
+
             await usuarioModelo.findByIdAndUpdate(idUsuario, { $pull: { 'publicaciones': idPublicacion } }, { new: true }, (error: String, usuario: any) => {
 
                 if (error) return res.status(500).send({ status: 'failed' });
@@ -123,10 +135,10 @@ class PublicacionControlador {
             return res.status(200).send({ status: 'success' });
 
 
-        } catch (error:any) {
+        } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
         }
-    } 
+    }
 
     public async subirImagen(req: Request, res: Response) {
         try {
@@ -146,7 +158,7 @@ class PublicacionControlador {
                     const imgVal = /jpeg|jpg|png/;
                     const mimetype = imgVal.test(file.mimetype);   //Comprueba que el archivo que llega tiene la extension correcta
                     const extName = imgVal.test(path.extname(file.originalname));
-                    
+
                     if (mimetype && extName) {
                         return cb(null, true);
                     }
@@ -164,17 +176,17 @@ class PublicacionControlador {
                     if (error) return res.status(500).send({ status: 'failed' });
 
                     if (!publicacion) return res.send(404).send({ status: '404' });
-                    
+
                 });
 
                 return res.status(200).send({ status: 'success' });
             });
 
-        } catch (error:any) {
+        } catch (error: any) {
             if (error) return res.status(500).send({ status: 'failed' });
         }
     }
-                                                                                                                                                                                                                    
+
     public async recuperarImagen(req: Request, res: Response) {
         try {
             const idPublicacion = req.params.idPublicacion;

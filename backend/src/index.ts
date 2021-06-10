@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import "./database";
 import { servidor } from './keys';
 const path = require('path');
+import rateLimit from 'express-rate-limit';
 
 //Inicializaciones
 const app: Application = express();
@@ -23,6 +24,15 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
+
+const rateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 1000,
+    message: 'No puedes exceder de 500 peticiones cada 15 minutos',
+    headers: true
+});
+
+app.use(rateLimiter);
 
 
 //Cargar archivos de rutas

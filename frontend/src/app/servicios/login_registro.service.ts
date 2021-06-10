@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, asapScheduler, pipe, of, interval, merge, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import {servidor} from '../keys';
+import { servidor } from '../keys';
 
 @Injectable()
 export class Login_registroService {
@@ -57,5 +57,10 @@ export class Login_registroService {
     this.token = token;
     localStorage.setItem("usuario", JSON.stringify(usuario));
     this.usuario = usuario;
+  }
+
+  savenUsuario(idUsuario:string) {
+    console.log("1");
+    return this._http.get<JwtResponseI>(`${this.url}/usuarios/${idUsuario}`);
   }
 }

@@ -2,7 +2,7 @@ import { UsuarioService } from './servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { Login_registroService } from "./servicios/login_registro.service";
-import {servidor} from './keys';
+import { servidor } from './keys';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import {servidor} from './keys';
 })
 export class AppComponent implements OnInit {
   title: string = 'frontend';
-  localUsuario=JSON.parse(localStorage.getItem("usuario"));
+  localUsuario = JSON.parse(localStorage.getItem("usuario"));
 
   constructor(
     private _usuarioServicio: UsuarioService,
@@ -33,16 +33,16 @@ export class AppComponent implements OnInit {
       }
     }
 
-    if(this.localUsuario && this.localUsuario.foto_perfil!=''){
-      this.localUsuario.foto_perfil=`${servidor.URI}/public/uploads/foto_perfil/${this.localUsuario._id}.jpg`;
-      $(".foto_perfil").css("background-image",'url('+this.localUsuario.foto_perfil+')');
-    }else if(this.localUsuario){
-      this.localUsuario.foto_perfil=`${servidor.URI}/public/uploads/foto_perfil/none.jpg`;
+    if (this.localUsuario && this.localUsuario.foto_perfil != '') {
+      this.localUsuario.foto_perfil = `${servidor.URI}/public/uploads/foto_perfil/${this.localUsuario._id}.jpg`;
+      $(".foto_perfil").css("background-image", 'url(' + this.localUsuario.foto_perfil + ')');
+    } else if (this.localUsuario) {
+      this.localUsuario.foto_perfil = `${servidor.URI}/public/uploads/foto_perfil/none.jpg`;
     }
 
   }
 
-  logOut(){
+  logOut() {
     this._loginRegistroServicio.logout();
   }
 

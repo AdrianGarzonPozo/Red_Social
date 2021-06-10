@@ -56,6 +56,11 @@ export class SubirComponent implements OnInit {
   onSubmitFoto() {
     this._publicacionService.subirImagen(this.idPublicacion,this.file).subscribe(
       response=>{
+        this._loginRegistroServicio.savenUsuario(this.localUsuario._id).subscribe(
+          res=>{
+            localStorage.setItem("usuario", JSON.stringify(res));
+          }
+        );
         this._router.navigate(['/perfil']);
       },
       error=>{

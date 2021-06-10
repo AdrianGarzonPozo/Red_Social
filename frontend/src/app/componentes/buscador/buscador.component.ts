@@ -27,6 +27,7 @@ export class BuscadorComponent implements OnInit {
         console.log(this.usuarios[0]);
         if(this.usuarios[0].foto_perfil && this.usuarios[0].foto_perfil!=''){
           console.log(this.usuarios[0].foto_perfil);
+          console.log($(".foto"));
           $(".foto").css("background-image","url("+servidor.URI+"/public/uploads/foto_perfil/"+this.usuarios[0].foto_perfil+")");
         }
       },
