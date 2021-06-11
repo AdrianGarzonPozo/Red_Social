@@ -1,5 +1,5 @@
 export const servidor = {
-    "URI": "http://localhost:3700"
+    "URI": "http://localhost:3000"
 }
 
 export const front = {

@@ -10,7 +10,7 @@ import rateLimit from 'express-rate-limit';
 const app: Application = express();
 
 //Configuraciones
-app.set('port', process.env.PORT || 3700);
+app.set('port', process.env.PORT || 3000);
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: false })); //Activar body-parser

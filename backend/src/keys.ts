@@ -1,7 +1,7 @@
 export const mongodb={
-    "URI":"mongodb://admin:admin@localhost:27017/red_social?authSource=admin"
+    "URI":"mongodb+srv://admin:admin@redsocial.qmroa.mongodb.net/red_social?retryWrites=true&w=majority"
 }
 
 export const servidor={
-    "URI":"http://localhost:3700"
+    "URI":"http://localhost:3000"
 }
