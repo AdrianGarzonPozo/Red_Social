@@ -3,5 +3,5 @@ export const mongodb={
 }
 
 export const servidor={
-    "URI":"http://localhost:3000"
+    "URI":"http://18.216.219.15"
 }
