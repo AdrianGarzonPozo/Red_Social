@@ -4,7 +4,7 @@
   "description": "Backend para la red social",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node src/index.ts",
     "clean": "rd /S /Q build",
     "build": "tsc",
     "startbuild": "node build/src",
